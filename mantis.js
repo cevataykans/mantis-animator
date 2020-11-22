@@ -30,7 +30,7 @@ var modelIDNames = [
     "back Right Leg",
     "left Wing",
     "right Wing"
-] //redundant? ******************************************************************************
+] //DO NOT DELETE, for display on the UI!
 
 var bodyAngleY = 15;
 var bodyAngleZ = 16;
@@ -57,78 +57,79 @@ var wingThick = 0.25;
 var theta = [120, -45, 45, 45, 0, -30, 90, -90, 45, 0, 0, 0, 0, 0, 0, 0, 150]; //redundant?************************************************************
 // we can directly put values now as constants!
 
-var transforms = [ //REFACTOR: can be made into a list! direct access with id! inside initNodes! makes code even more efficient!*************************
-    {
+// Model View Transforms
+var transforms = [
+    { //"body",
        "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
        "rot": [ theta[bodyId], theta[bodyAngleY], theta[bodyAngleZ]], 
        "scale": [ 1, 1, 1]
     },
-    {
+    { //"neck",
         "pos": [ 0.0, bodyHeight - neckHeight * 0.1, -neckWidth * 0.5],
         "rot": [ theta[neckId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"head",
         "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
         "rot": [ theta[headId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"left Upper Claw",
         "pos": [ neckWidth - upperClawWidth * 0.5, upperClawHeight, 0.0],
         "rot": [ theta[rightUpperClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"left Middle Claw",
         "pos": [ 0.0, upperClawHeight, 0.0],
         "rot": [ theta[rightMiddleClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"left Lower Claw",
         "pos": [ 0.0, lowerClawHeight, 0.0],
         "rot": [ theta[rightLowerClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"right Upper Claw",
         "pos": [ -( neckWidth - upperClawWidth * 0.5), upperClawHeight, 0.0],
         "rot": [ theta[leftUpperClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"right Middle Claw",
         "pos": [ 0.0, upperClawHeight * 0.0, 0.0],
         "rot": [ theta[leftMiddleClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"right Lower Claw",
         "pos": [ 0.0, lowerClawHeight + middleClawHeight * 0.5, 0.0],
         "rot": [ theta[leftLowerClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"front Left Leg",
         "pos": [ bodyWidth - 2.5 * legWidth, bodyHeight - 2.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[frontRightLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"front Right Leg",
         "pos": [ -bodyWidth + 2.5 * legWidth, bodyHeight - 2.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[frontLeftLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"back Left Leg",
         "pos": [ bodyWidth - 2.5 * legWidth, bodyHeight - 5.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[backRightLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-    {
+    { //"back Right Leg",
         "pos": [ -bodyWidth + 2.5 * legWidth, bodyHeight - 5.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[backLeftLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { //"left Wing",
         "pos": [ bodyWidth + wingWidth * 0.25, 0, -4 * wingThick],
         "rot": [ theta[leftWingId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     {
+     { // "right Wing"
         "pos": [ -bodyWidth - wingWidth * 0.25, 0, -4 * wingThick],
         "rot": [ theta[rightWingId], 0, 0],
         "scale": [ 1, 1, 1]
