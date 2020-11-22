@@ -16,7 +16,6 @@ var rightWingId = 14;
 var bodyAngleY = 15;
 var bodyAngleZ = 16;
 
-
 var bodyHeight = 6.0;
 var bodyWidth = 2.0;
 var neckHeight = 6.0;
@@ -179,6 +178,9 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5*bodyHeight, 0.0) );
      instanceMatrix = mult(instanceMatrix, scale4( bodyWidth, bodyHeight, bodyWidth));
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
@@ -187,15 +189,23 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * neckHeight, 0.0 ));
      instanceMatrix = mult(instanceMatrix, scale4(neckWidth, neckHeight, neckWidth) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
- 
+
  function head() {
     
+    //console.log( "Drawing head");
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * headHeight, 0.0 ));
      instanceMatrix = mult(instanceMatrix, scale4(headWidth, headHeight, headWidth) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     
+     prepareData( headSpherePoints, sphereColors);
+
+     gl.drawArrays( gl.TRIANGLES, 0, headSpherePoints.length);
+     //for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
  function upperClaw() {
@@ -203,6 +213,9 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperClawHeight, 0.0) );
      instanceMatrix = mult(instanceMatrix, scale4(upperClawWidth, upperClawHeight, upperClawWidth) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
@@ -211,6 +224,9 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * middleClawHeight, 0.0) );
      instanceMatrix = mult(instanceMatrix, scale4(middleClawWidth, middleClawHeight, middleClawWidth) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
@@ -219,6 +235,9 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * lowerClawHeight, 0.0) );
      instanceMatrix = mult(instanceMatrix, scale4(lowerClawWidth, lowerClawHeight, lowerClawWidth) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
@@ -227,6 +246,9 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * legHeight, 0.0) );
      instanceMatrix = mult(instanceMatrix, scale4(legWidth, legHeight, legThick) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
@@ -235,6 +257,27 @@ function traverse(Id) {
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * wingHeight, 0.0) );
      instanceMatrix = mult(instanceMatrix, scale4(wingWidth, wingHeight, wingThick) )
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+     prepareData( pointsArray, colorsArray);
+
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
- 
+
+ function prepareData( pointsArray, colorsArray, normal = null, texture = null)
+ {
+     cBuffer = gl.createBuffer();
+     gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
+     gl.bufferData(gl.ARRAY_BUFFER, flatten(colorsArray), gl.STATIC_DRAW);
+
+     var vColor = gl.getAttribLocation( program, "vColor" );
+     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
+     gl.enableVertexAttribArray( vColor );
+
+     vBuffer = gl.createBuffer();
+     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
+     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+
+     var vPosition = gl.getAttribLocation( program, "vPosition" );
+     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
+     gl.enableVertexAttribArray( vPosition );
+ }

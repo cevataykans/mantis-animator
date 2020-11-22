@@ -56,6 +56,9 @@ var modelViewLoc;
 var pointsArray = [];
 var colorsArray = [];
 
+var headSpherePoints = [];
+var sphereColors = [];
+
 //-------------------------------------------
 
 function scale4(a, b, c) {
@@ -140,10 +143,12 @@ window.onload = function init() {
     
     modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
     
+    // Find points for shapes
+    findSpherePoints( 0.5, 0.5, 0.5, headSpherePoints, sphereColors);
+    console.log( "Sphere color count: " + sphereColors.length);
     cube();
 
     cBuffer = gl.createBuffer();
-
     gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(colorsArray), gl.STATIC_DRAW);
 
@@ -151,9 +156,9 @@ window.onload = function init() {
     gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vColor );
         
-    vBuffer = gl.createBuffer();
+    /*vBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);*/
     
     var vPosition = gl.getAttribLocation( program, "vPosition" );
     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );

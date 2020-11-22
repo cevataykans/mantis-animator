@@ -3,13 +3,13 @@ var stackCount = 20; //TODO: add sectorCount and stackCount as an argument!
 
 //*******************  Ellipsoid *******************//
 
-function findSpherePoints( xRadius, yRadius, zRadius, points)
+function findSpherePoints( xRadius, yRadius, zRadius, points, colors)
 {
     var spherePointIndices = [];
 
     var x, y, z, xyAngle;
     var nx, ny, nz;
-    var inverseLength = 1 / radius;
+    //var inverseLength = 1 / radius;
 
     var sectorStep = 2 * Math.PI / sectorCount;
     var stackStep = Math.PI / stackCount;
@@ -32,10 +32,10 @@ function findSpherePoints( xRadius, yRadius, zRadius, points)
             spherePointIndices.push( vec4( x, y, z, 1) );
         }
     }
-    findSphereTriangles( spherePointIndices, points);
+    findSphereTriangles( spherePointIndices, points, colors);
 }
 
-function findSphereTriangles( spherePointIndices, points)
+function findSphereTriangles( spherePointIndices, points, colors)
 {
     let upper, lower;
     for ( let i = 0; i < stackCount; i++)
@@ -55,7 +55,9 @@ function findSphereTriangles( spherePointIndices, points)
                 // push normals!
             
                 // push colors?
-
+                colors.push( vertexColors[ 3]);
+                colors.push( vertexColors[ 3]);
+                colors.push( vertexColors[ 3]);
                 // push texture!!
             }
 
@@ -68,7 +70,9 @@ function findSphereTriangles( spherePointIndices, points)
                 // push normals!
             
                 // push colors?
-
+                colors.push( vertexColors[ 3]);
+                colors.push( vertexColors[ 3]);
+                colors.push( vertexColors[ 3]);
                 // push texture!!
             }
         }
