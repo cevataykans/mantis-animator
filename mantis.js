@@ -13,6 +13,25 @@ var backLeftLegId = 11;
 var backRightLegId = 12;
 var leftWingId = 13;
 var rightWingId = 14;
+
+var modelIDNames = [
+    "body",
+    "neck",
+    "head",
+    "left Upper Claw",
+    "left Middle Claw",
+    "left Lower Claw",
+    "right Upper Claw",
+    "right Middle Claw",
+    "right Lower Claw",
+    "front Left Leg",
+    "front Right Leg",
+    "back Left Leg",
+    "back Right Leg",
+    "left Wing",
+    "right Wing"
+]
+
 var bodyAngleY = 15;
 var bodyAngleZ = 16;
 
@@ -34,6 +53,84 @@ var legThick = 4.0;
 var wingHeight = 6.0;
 var wingWidth = 5.0;
 var wingThick = 0.25;
+
+var transforms = {
+    "body": {
+       "pos": [ 0, 0, 0],
+       "rot": [ 0, 0, 0],
+       "scale": [ 0, 0, 0]
+    },
+    "neckId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "headId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "leftUpperClawId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "leftMiddleClawId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "leftLowerClawId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "rightUpperClawId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "rightMiddleClawId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "rightLowerClawId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "frontLeftLegId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "frontRightLegId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "backLeftLegId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "backRightLegId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "leftWingId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     },
+     "rightWingId": {
+        "pos": [ 0, 0, 0],
+        "rot": [ 0, 0, 0],
+        "scale": [ 0, 0, 0]
+     }
+};
 
 function createNode(transform, render, sibling, child){
     var node = {

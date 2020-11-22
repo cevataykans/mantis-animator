@@ -1,66 +1,143 @@
+<!DOCTYPE html>
 <html>
+    <head>
+        <title>Mantis Simulator</title>
 
+        <style>
+			canvas {
+				border: 2px solid black;
+                margin-left: 10px;
+                margin-right: 10px;
+                float: left;
+			}
 
-<script id="vertex-shader" type="x-shader/x-vertex">
+            .hierarchy {
+                float: left;
+                border: 2px solid black;
+            }
 
-attribute vec4 vPosition;
-attribute vec4 vColor; 
-varying vec4 fColor;
+            .vertical-menu {
+            width: 200px; /* Set a width if you like */
+            }
 
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
+            .vertical-menu a {
+            background-color: #eee; /* Grey background color */
+            color: black; /* Black text color */
+            display: block; /* Make the links appear below each other */
+            padding: 12px; /* Add some padding */
+            text-decoration: none; /* Remove underline from links */
+            }
 
-void main() 
-{
-    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
-    fColor = vColor;
-} 
-</script>
+            .vertical-sub-menu a {
+            background-color: #eee; /* Grey background color */
+            color: black; /* Black text color */
+            display: block; /* Make the links appear below each other */
+            padding: 12px; /* Add some padding */
+            padding-left: 30px;
+            text-decoration: none; /* Remove underline from links */
+            }
 
-<script id="fragment-shader" type="x-shader/x-fragment">
+            .vertical-menu a:hover {
+            background-color: #ccc; /* Dark grey background on mouse-over */
+            }
 
-precision mediump float;
-varying vec4 fColor;
-void main()
-{
-    gl_FragColor = fColor;
+            .vertical-menu a.active {
+            background-color: #4CAF50; /* Add a green color to the "active/current" link */
+            color: white;
+            }
+        </style>
+        
+        <script id="vertex-shader" type="x-shader/x-vertex">
 
-}
-</script>
+        attribute vec4 vPosition;
+        attribute vec4 vColor; 
+        varying vec4 fColor;
 
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
 
+        void main() 
+        {
+            gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+            fColor = vColor;
+        } 
+        </script>
 
-<script type="text/javascript" src="webgl-utils.js"></script>
-<script type="text/javascript" src="InitShaders.js"></script>
-<script type="text/javascript" src="MV.js"></script>
-<script type="text/javascript" src="commonShapes.js"></script>
-<script type="text/javascript" src="mantis.js"></script>
-<script type="text/javascript" src="figure.js"></script>
+        <script id="fragment-shader" type="x-shader/x-fragment">
 
-<div id="slider0">
-body x-axis angle -180 <input id="slide" type="range"
- min="-180" max="180" step="1" value="0"
-  />
- 180
-</div><br/>
-<div id="slider1">
-body y-axis angle -180 <input id="slide" type="range"
- min="-180" max="180" step="1" value="0"
-  />
- 180
-</div><br/>
+        precision mediump float;
+        varying vec4 fColor;
+        void main()
+        {
+            gl_FragColor = fColor;
 
-<div id="slider2">
-body z-axis angle -180 <input id="slide" type="range"
- min="-180" max="180" step="1" value="0"
-  />
- 180
-</div><br/>
+        }
+        </script>
 
+        <script type="text/javascript" src="webgl-utils.js"></script>
+        <script type="text/javascript" src="InitShaders.js"></script>
+        <script type="text/javascript" src="MV.js"></script>
+        <script type="text/javascript" src="commonShapes.js"></script>
+        <script type="text/javascript" src="mantis.js"></script>
+        <script type="text/javascript" src="figure.js"></script>
+    </head>
 
 <body>
-<canvas id="gl-canvas" width="1024"" height="1024">
-Oops ... your browser doesn't support the HTML5 canvas element
-</canvas>
+
+    <div class="hierarchy">
+
+        <ul id="menunull">
+        </ul>
+        
+        <hr>
+
+        <div id="slider0">
+        body x-axis angle -180 <input id="slide" type="range"
+         min="-180" max="180" step="1" value="0"
+          />
+         180
+        </div><br/>
+        <div id="slider1">
+        body y-axis angle -180 <input id="slide" type="range"
+         min="-180" max="180" step="1" value="0"
+          />
+         180
+        </div><br/>
+        
+        <div id="slider2">
+        body z-axis angle -180 <input id="slide" type="range"
+         min="-180" max="180" step="1" value="0"
+          />
+         180
+        </div><br/>
+    </div>
+
+    <canvas id="gl-canvas" width="1024"" height="1024">
+        Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas>
+
+    <div class="hierarchy">
+        <h3>How to Use</h3>
+        <div id="slider0">
+        body x-axis angle -180 <input id="slide" type="range"
+         min="-180" max="180" step="1" value="0"
+          />
+         180
+        </div><br/>
+        <div id="slider1">
+        body y-axis angle -180 <input id="slide" type="range"
+         min="-180" max="180" step="1" value="0"
+          />
+         180
+        </div><br/>
+        
+        <div id="slider2">
+        body z-axis angle -180 <input id="slide" type="range"
+         min="-180" max="180" step="1" value="0"
+          />
+         180
+        </div><br/>
+    </div>
+
 </body>
 </html>
