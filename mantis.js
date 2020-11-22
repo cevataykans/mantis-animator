@@ -54,81 +54,83 @@ var wingHeight = 6.0;
 var wingWidth = 5.0;
 var wingThick = 0.25;
 
+var theta = [120, -45, 45, 45, 0, -30, 90, -90, 45, 0, 0, 0, 0, 0, 0, 0, 150];
+
 var transforms = {
     "body": {
-       "pos": [ 1, 2, 3],
-       "rot": [ 0, 90, 0],
+       "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
+       "rot": [ theta[bodyId], theta[bodyAngleY], theta[bodyAngleZ]], 
        "scale": [ 1, 1, 1]
     },
     "neck": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ 0.0, bodyHeight - neckHeight * 0.1, -neckWidth * 0.5],
+        "rot": [ theta[neckId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "head": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
+        "rot": [ theta[headId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "left Upper Claw": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ neckWidth - upperClawWidth * 0.5, upperClawHeight, 0.0],
+        "rot": [ theta[rightUpperClawId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "left Middle Claw": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ 0.0, upperClawHeight, 0.0],
+        "rot": [ theta[rightMiddleClawId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "left Lower Claw": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ 0.0, lowerClawHeight, 0.0],
+        "rot": [ theta[rightLowerClawId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "right Upper Claw": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ -( neckWidth - upperClawWidth * 0.5), upperClawHeight, 0.0],
+        "rot": [ theta[leftUpperClawId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "right Middle Claw": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ 0.0, upperClawHeight * 0.0, 0.0],
+        "rot": [ theta[leftMiddleClawId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "right Lower Claw": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ 0.0, lowerClawHeight + middleClawHeight * 0.5, 0.0],
+        "rot": [ theta[leftLowerClawId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "front Left Leg": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ bodyWidth - 2.5 * legWidth, bodyHeight - 2.5 * legHeight, bodyWidth + 2 * legWidth],
+        "rot": [ theta[frontRightLegId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "front Right Leg": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ -bodyWidth + 2.5 * legWidth, bodyHeight - 2.5 * legHeight, bodyWidth + 2 * legWidth],
+        "rot": [ theta[frontLeftLegId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "backLeftLegId": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ bodyWidth - 2.5 * legWidth, bodyHeight - 5.5 * legHeight, bodyWidth + 2 * legWidth],
+        "rot": [ theta[backRightLegId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "back Right Leg": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ -bodyWidth + 2.5 * legWidth, bodyHeight - 5.5 * legHeight, bodyWidth + 2 * legWidth],
+        "rot": [ theta[backLeftLegId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "left Wing": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ bodyWidth + wingWidth * 0.25, 0, -4 * wingThick],
+        "rot": [ theta[leftWingId], 0, 0],
+        "scale": [ 1, 1, 1]
      },
      "right Wing": {
-        "pos": [ 0, 0, 0],
-        "rot": [ 0, 0, 0],
-        "scale": [ 0, 0, 0]
+        "pos": [ -bodyWidth - wingWidth * 0.25, 0, -4 * wingThick],
+        "rot": [ theta[rightWingId], 0, 0],
+        "scale": [ 1, 1, 1]
      }
 };
 
@@ -144,41 +146,41 @@ function createNode(transform, render, sibling, child){
 
 function initNodes(Id) {
 
-    var m = mat4();
+    var curTF;
     
     switch(Id) {
     
     case bodyId:
     
-        m = rotate(theta[bodyId], 1, 0, 0 );
-        m = mult(m, rotate(theta[bodyAngleY], 0, 1, 0));
-        m = mult(m, rotate(theta[bodyAngleZ], 0, 0, 1));
+        curTF = transforms[ "body"];
+        m = getModelViewMatrix( curTF);
         figure[bodyId] = createNode( m, body, null, neckId );
         break;
 
     case neckId:    
 
-        m = translate(0.0, bodyHeight-neckHeight*0.1, -neckWidth*0.5);
-        m = mult(m, rotate(theta[neckId], 1, 0, 0 ));
+        curTF = transforms[ "neck"];
+        m = getModelViewMatrix( curTF);
         figure[neckId] = createNode( m, neck, frontLeftLegId, headId);
         break;
 
     case headId:    
 
-        m = translate(0.0, neckHeight-headHeight*0.2, 0.0);
-        m = mult(m, rotate(theta[headId], 1, 0, 0 ));
+        curTF = transforms[ "head"];
+        m = getModelViewMatrix( curTF);
         figure[headId] = createNode( m, head, leftUpperClawId, null);
         break;
     
     case rightUpperClawId:
     
-        m = translate(-(neckWidth-upperClawWidth*0.5), upperClawHeight, 0.0);
-        m = mult(m, rotate(theta[leftUpperClawId], 1, 0, 0));
+        curTF = transforms[ "right Upper Claw"];
+        m = getModelViewMatrix( curTF);
         figure[leftUpperClawId] = createNode( m, upperClaw, rightUpperClawId, leftMiddleClawId );
         break;
 
     case rightMiddleClawId:
 
+        curTF = transforms[ "right Middle Claw"];
         m = translate(0.0, upperClawHeight * 0.0, 0.0);
         m = mult(m, rotate(theta[leftMiddleClawId], 1, 0, 0));
         figure[leftMiddleClawId] = createNode( m, middleClaw, null, leftLowerClawId );
@@ -186,6 +188,7 @@ function initNodes(Id) {
 
     case rightLowerClawId:
 
+        curTF = transforms[ "right Lower Claw"];
         m = translate(0.0, lowerClawHeight + middleClawHeight*0.5, 0.0);
         m = mult(m, rotate(theta[leftLowerClawId], 1, 0, 0));
         figure[leftLowerClawId] = createNode( m, lowerClaw, null, null );
@@ -193,6 +196,7 @@ function initNodes(Id) {
 
     case leftUpperClawId:
     
+        curTF = transforms[ "left Upper Claw"];
         m = translate(neckWidth-upperClawWidth*0.5, upperClawHeight, 0.0);
         m = mult(m, rotate(theta[rightUpperClawId], 1, 0, 0));
         figure[rightUpperClawId] = createNode( m, upperClaw, null, rightMiddleClawId );
@@ -200,6 +204,7 @@ function initNodes(Id) {
 
     case leftMiddleClawId:
 
+        curTF = transforms[ "left Middle Claw"];
         m = translate(0.0, upperClawHeight, 0.0);
         m = mult(m, rotate(theta[rightMiddleClawId], 1, 0, 0));
         figure[rightMiddleClawId] = createNode( m, middleClaw, null, rightLowerClawId );
@@ -207,6 +212,7 @@ function initNodes(Id) {
 
     case leftLowerClawId:
 
+        curTF = transforms[ "left Lower Claw"];
         m = translate(0.0, lowerClawHeight, 0.0);
         m = mult(m, rotate(theta[rightLowerClawId], 1, 0, 0));
         figure[rightLowerClawId] = createNode( m, lowerClaw, null, null );
@@ -214,6 +220,7 @@ function initNodes(Id) {
     
     case frontRightLegId:
     
+        curTF = transforms[ "front Right Leg"];
         m = translate(-bodyWidth+2.5*legWidth, +bodyHeight-2.5*legHeight, bodyWidth+2*legWidth);
         m = mult(m , rotate(theta[frontLeftLegId], 1, 0, 0));
         figure[frontLeftLegId] = createNode( m, leg, frontRightLegId, null );
@@ -221,6 +228,7 @@ function initNodes(Id) {
 
     case frontLeftLegId:
     
+        curTF = transforms[ "front Left Leg"];
         m = translate(+bodyWidth-2.5*legWidth, +bodyHeight-2.5*legHeight, bodyWidth+2*legWidth);
         m = mult(m, rotate(theta[frontRightLegId], 1, 0, 0));
         figure[frontRightLegId] = createNode( m, leg, backLeftLegId, null );
@@ -229,6 +237,7 @@ function initNodes(Id) {
     
     case backRightLegId:
 
+        curTF = transforms[ "back Right Leg"];
         m = translate(-bodyWidth+2.5*legWidth, +bodyHeight-5.5*legHeight, bodyWidth+2*legWidth);
         m = mult(m, rotate(theta[backLeftLegId], 1, 0, 0));
         figure[backLeftLegId] = createNode( m, leg, backRightLegId, null );
@@ -236,6 +245,7 @@ function initNodes(Id) {
 
     case backLeftLegId:
 
+        curTF = transforms[ "back Left Leg"];
         m = translate(+bodyWidth-2.5*legWidth, +bodyHeight-5.5*legHeight, bodyWidth+2*legWidth);
         m = mult(m, rotate(theta[backRightLegId], 1, 0, 0));
         figure[backRightLegId] = createNode( m, leg, leftWingId, null );
@@ -244,6 +254,7 @@ function initNodes(Id) {
 
     case leftWingId:
 
+        curTF = transforms[ "left Wing"];
         m = translate(bodyWidth+wingWidth*0.25, 0, -4*wingThick);
         m = mult(m, rotate(theta[leftWingId], 1, 0, 0));
         figure[leftWingId] = createNode( m, wing, rightWingId, null );
@@ -251,12 +262,24 @@ function initNodes(Id) {
 
     case rightWingId:
 
+        curTF = transforms[ "right Wing"];
         m = translate(-bodyWidth-wingWidth*0.25, 0, -4*wingThick);
         m = mult(m, rotate(theta[rightWingId], 1, 0, 0));
         figure[rightWingId] = createNode( m, wing, null, null );
         break;
     
     }
+}
+
+function getModelViewMatrix( curTF)
+{
+    var m = mat4();
+    m = translate( curTF[ "pos"][ 0], curTF[ "pos"][ 1], curTF[ "pos"][ 2]);
+    m = mult(m, rotate( curTF["rot"][ 0], 1, 0, 0 ));
+    m = mult(m, rotate( curTF["rot"][ 1], 0, 1, 0));
+    m = mult(m, rotate( curTF["rot"][ 2], 0, 0, 1));
+    m = mult(m, scale4( curTF["scale"][ 0], curTF["scale"][ 1], curTF["scale"][ 2]));
+    return m;
 }
 
 function traverse(Id) {
@@ -294,7 +317,6 @@ function traverse(Id) {
 
  function head() {
     
-    //console.log( "Drawing head");
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * headHeight, 0.0 ));
      instanceMatrix = mult(instanceMatrix, scale4(headWidth, headHeight, headWidth) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
@@ -302,7 +324,6 @@ function traverse(Id) {
      prepareData( headSpherePoints, sphereColors);
 
      gl.drawArrays( gl.TRIANGLES, 0, headSpherePoints.length);
-     //for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
  function upperClaw() {
@@ -352,7 +373,7 @@ function traverse(Id) {
  function wing() {
  
      instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * wingHeight, 0.0) );
-     instanceMatrix = mult(instanceMatrix, scale4(wingWidth, wingHeight, wingThick) )
+     instanceMatrix = mult(instanceMatrix, scale4(wingWidth, wingHeight, wingThick) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
      prepareData( pointsArray, colorsArray);

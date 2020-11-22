@@ -40,8 +40,6 @@ var numNodes = 15;
 var numAngles = 17;
 var angle = 0;
 
-var theta = [120, -45, 45, 45, 0, -30, 90, -90, 45, 0, 0, 0, 0, 0, 0, 0, 150];
-
 var numVertices = 24;
 
 var stack = [];
@@ -210,6 +208,7 @@ function changeTransformMatrix(event)
                     modelTransform[ transformKeys[ i]][ j] = transformUI[ i][ j].value;
                 }
             }
+            initNodes( parseInt( previousButton.value));
         }
     }
 }
