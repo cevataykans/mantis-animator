@@ -80,26 +80,9 @@
             </ul>
             
             <hr>
-
-            <div id="slider0">
-            body x-axis angle -180 <input id="slide" type="range"
-            min="-180" max="180" step="1" value="0"
-            />
-            180
-            </div><br/>
-            <div id="slider1">
-            body y-axis angle -180 <input id="slide" type="range"
-            min="-180" max="180" step="1" value="0"
-            />
-            180
-            </div><br/>
-            
-            <div id="slider2">
-            body z-axis angle -180 <input id="slide" type="range"
-            min="-180" max="180" step="1" value="0"
-            />
-            180
-            </div><br/>
+            <div>
+                add other options here, maybe camera controls?
+            </div>
         </div>
 
         <canvas id="gl-canvas" width="1024"" height="1024">
@@ -107,48 +90,56 @@
         </canvas>
 
         <div class="transform">
-            <h2>Transform</h2>
             <div>
-                <hr style="width:100%;text-align:left;margin-left:0;">
+                <h2>Transform</h2>
                 <div>
-                    <h4 class="transformComponent">Position:</h4>
-                    <div class="transformComponent">
-                        X: <input class="transformInput" type="text" id="posX" value="-" placeholder="0">
+                    <hr style="width:100%;text-align:left;margin-left:0;">
+                    <div>
+                        <h4 class="transformComponent">Position:</h4>
+                        <div class="transformComponent">
+                            X: <input class="transformInput" type="text" id="posX" value="-" placeholder="0">
+                        </div>
+                        <div class="transformComponent">
+                            Y: <input class="transformInput" type="text" id="posY" value="-" placeholder="0">
+                        </div>
+                        <div class="transformComponent">
+                            Z: <input class="transformInput" type="text" id="posZ" value="-" placeholder="0">
+                        </div>
                     </div>
-                    <div class="transformComponent">
-                        Y: <input class="transformInput" type="text" id="posY" value="-" placeholder="0">
+                    <hr style="width:100%;text-align:left;margin-left:0;">
+                    <div>
+                        <h4 class="transformComponent">Rotation:</h4>
+                        <div class="transformComponent">
+                            X: <input class="transformInput" type="text" id="rotX" value="-" placeholder="0">
+                        </div>
+                        <div class="transformComponent">
+                            Y: <input class="transformInput" type="text" id="rotY" value="-" placeholder="0">
+                        </div>
+                        <div class="transformComponent">
+                            Z: <input class="transformInput" type="text" id="rotZ" value="-" placeholder="0">
+                        </div>
                     </div>
-                    <div class="transformComponent">
-                        Z: <input class="transformInput" type="text" id="posZ" value="-" placeholder="0">
-                    </div>
-                </div>
-                <hr style="width:100%;text-align:left;margin-left:0;">
-                <div>
-                    <h4 class="transformComponent">Rotation:</h4>
-                    <div class="transformComponent">
-                        X: <input class="transformInput" type="text" id="rotX" value="-" placeholder="0">
-                    </div>
-                    <div class="transformComponent">
-                        Y: <input class="transformInput" type="text" id="rotY" value="-" placeholder="0">
-                    </div>
-                    <div class="transformComponent">
-                        Z: <input class="transformInput" type="text" id="rotZ" value="-" placeholder="0">
-                    </div>
-                </div>
-                <hr style="width:100%;text-align:left;margin-left:0;">
-                <div>
-                    <h4 class="transformComponent">Scale:</h4>
-                    <div class="transformComponent">
-                        X: <input class="transformInput" type="text" id="scaleX" value="-" placeholder="0">
-                    </div>
-                    <div class="transformComponent">
-                        Y: <input class="transformInput" type="text" id="scaleY" value="-" placeholder="0">
-                    </div>
-                    <div class="transformComponent">
-                        Z: <input class="transformInput" type="text" id="scaleZ" value="-" placeholder="0">
+                    <hr style="width:100%;text-align:left;margin-left:0;">
+                    <div>
+                        <h4 class="transformComponent">Scale:</h4>
+                        <div class="transformComponent">
+                            X: <input class="transformInput" type="text" id="scaleX" value="-" placeholder="0">
+                        </div>
+                        <div class="transformComponent">
+                            Y: <input class="transformInput" type="text" id="scaleY" value="-" placeholder="0">
+                        </div>
+                        <div class="transformComponent">
+                            Z: <input class="transformInput" type="text" id="scaleZ" value="-" placeholder="0">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div style="margin-top: 100px;">
+                <h2>Model Render Position</h2>
+                <div>
+                    add camera controls, animations options below here
+                </div>
+            </div>
+    </div>
     </body>
 </html>

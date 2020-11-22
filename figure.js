@@ -20,7 +20,7 @@ var vertices = [
     vec4( -0.5,  0.5, -0.5, 1.0 ),
     vec4( 0.5,  0.5, -0.5, 1.0 ),
     vec4( 0.5, -0.5, -0.5, 1.0 )
-];
+]; // CAN BE MOVED TO COMMON SHAPES
 
 var vertexColors = [
     [ 0.0, 0.0, 0.0, 1.0 ],  // black
@@ -31,7 +31,7 @@ var vertexColors = [
     [ 1.0, 0.0, 1.0, 1.0 ],  // magenta
     [ 0.0, 1.0, 1.0, 1.0 ],  // cyan
     [ 1.0, 1.0, 1.0, 1.0 ]   // white
-];
+]; // CAN BE MOVED TO COMMON SHAPES
 
 var colorI = 0;
 
@@ -59,7 +59,7 @@ var sphereColors = [];
 
 //-------------------------------------------
 
-function scale4(a, b, c) {
+function scale4(a, b, c) { // WHAT IZ DIZ FUNCTION??? MOVE TO MV.JS
    var result = mat4();
    result[0][0] = a;
    result[1][1] = b;
@@ -102,20 +102,7 @@ window.onload = function init() {
     cube();
     //********  POINT GENERATION END *********//
     
-    document.getElementById("slider0").onchange = function(event) {
-        theta[bodyId] = event.target.value;
-        initNodes(bodyId);
-    };
 
-    document.getElementById("slider1").onchange = function(event) {
-        theta[bodyAngleY] = event.target.value;
-        initNodes(bodyId);
-    };
-
-    document.getElementById("slider2").onchange = function(event) {
-         theta[bodyAngleZ] = event.target.value;
-         initNodes(bodyId);
-    };
     for(i=0; i<numNodes; i++) initNodes(i);
     
     //********  UI  *********//
