@@ -197,8 +197,7 @@ function changeTransformMatrix(event)
         if ( !Number.isNaN( num) )
         {
             // copy values from transformUI that holds inputs that 
-            let key = modelIDNames[ previousButton.value];
-            let modelTransform = transforms[ key];
+            let modelTransform = transforms[ previousButton.value];
             let transformKeys = [ "pos", "rot", "scale"];
             // has the values! to the corresponding transformMatrix found by previousButton
             for ( let i = 0; i < 3; i++)
@@ -208,7 +207,7 @@ function changeTransformMatrix(event)
                     modelTransform[ transformKeys[ i]][ j] = transformUI[ i][ j].value;
                 }
             }
-            initNodes( parseInt( previousButton.value));
+            initNodes( parseInt( previousButton.value)); // do not change!
         }
     }
 }
@@ -225,8 +224,7 @@ function handleModelPieceClick( event)
     previousButton.disabled = true;
 
     // find corresponding transform matrix
-    let key = modelIDNames[ previousButton.value];
-    let modelTransform = transforms[ key];
+    let modelTransform = transforms[ previousButton.value];
     let transformKeys = [ "pos", "rot", "scale"];
     // Send bodydata to the transform UI!
     for ( let i = 0; i < 3; i++)

@@ -30,7 +30,7 @@ var modelIDNames = [
     "back Right Leg",
     "left Wing",
     "right Wing"
-]
+] //redundant? ******************************************************************************
 
 var bodyAngleY = 15;
 var bodyAngleZ = 16;
@@ -54,85 +54,86 @@ var wingHeight = 6.0;
 var wingWidth = 5.0;
 var wingThick = 0.25;
 
-var theta = [120, -45, 45, 45, 0, -30, 90, -90, 45, 0, 0, 0, 0, 0, 0, 0, 150];
+var theta = [120, -45, 45, 45, 0, -30, 90, -90, 45, 0, 0, 0, 0, 0, 0, 0, 150]; //redundant?************************************************************
+// we can directly put values now as constants!
 
-var transforms = {
-    "body": {
+var transforms = [ //REFACTOR: can be made into a list! direct access with id! inside initNodes! makes code even more efficient!*************************
+    {
        "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
        "rot": [ theta[bodyId], theta[bodyAngleY], theta[bodyAngleZ]], 
        "scale": [ 1, 1, 1]
     },
-    "neck": {
+    {
         "pos": [ 0.0, bodyHeight - neckHeight * 0.1, -neckWidth * 0.5],
         "rot": [ theta[neckId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "head": {
+     {
         "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
         "rot": [ theta[headId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "left Upper Claw": {
+     {
         "pos": [ neckWidth - upperClawWidth * 0.5, upperClawHeight, 0.0],
         "rot": [ theta[rightUpperClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "left Middle Claw": {
+     {
         "pos": [ 0.0, upperClawHeight, 0.0],
         "rot": [ theta[rightMiddleClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "left Lower Claw": {
+     {
         "pos": [ 0.0, lowerClawHeight, 0.0],
         "rot": [ theta[rightLowerClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "right Upper Claw": {
+     {
         "pos": [ -( neckWidth - upperClawWidth * 0.5), upperClawHeight, 0.0],
         "rot": [ theta[leftUpperClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "right Middle Claw": {
+     {
         "pos": [ 0.0, upperClawHeight * 0.0, 0.0],
         "rot": [ theta[leftMiddleClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "right Lower Claw": {
+     {
         "pos": [ 0.0, lowerClawHeight + middleClawHeight * 0.5, 0.0],
         "rot": [ theta[leftLowerClawId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "front Left Leg": {
+     {
         "pos": [ bodyWidth - 2.5 * legWidth, bodyHeight - 2.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[frontRightLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "front Right Leg": {
+     {
         "pos": [ -bodyWidth + 2.5 * legWidth, bodyHeight - 2.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[frontLeftLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "backLeftLegId": {
+     {
         "pos": [ bodyWidth - 2.5 * legWidth, bodyHeight - 5.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[backRightLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "back Right Leg": {
+    {
         "pos": [ -bodyWidth + 2.5 * legWidth, bodyHeight - 5.5 * legHeight, bodyWidth + 2 * legWidth],
         "rot": [ theta[backLeftLegId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "left Wing": {
+     {
         "pos": [ bodyWidth + wingWidth * 0.25, 0, -4 * wingThick],
         "rot": [ theta[leftWingId], 0, 0],
         "scale": [ 1, 1, 1]
      },
-     "right Wing": {
+     {
         "pos": [ -bodyWidth - wingWidth * 0.25, 0, -4 * wingThick],
         "rot": [ theta[rightWingId], 0, 0],
         "scale": [ 1, 1, 1]
      }
-};
+]; //************************** SOME USE I THINK VALUES THEY SHOULD NOT USE -> FOR EXAMPLE BACK RIGHT LEG USES THETA OF BACKLEFTLEGID AND THERE ARE MANY MORE EXAMPLES LIKE THIS! */
 
 function createNode(transform, render, sibling, child){
     var node = {
@@ -146,125 +147,99 @@ function createNode(transform, render, sibling, child){
 
 function initNodes(Id) {
 
-    var curTF;
+    var curTF = transforms[Id];
     
     switch(Id) {
     
     case bodyId:
     
-        curTF = transforms[ "body"];
         m = getModelViewMatrix( curTF);
         figure[bodyId] = createNode( m, body, null, neckId );
         break;
 
     case neckId:    
 
-        curTF = transforms[ "neck"];
         m = getModelViewMatrix( curTF);
         figure[neckId] = createNode( m, neck, frontLeftLegId, headId);
         break;
 
     case headId:    
 
-        curTF = transforms[ "head"];
         m = getModelViewMatrix( curTF);
         figure[headId] = createNode( m, head, leftUpperClawId, null);
         break;
     
     case rightUpperClawId:
     
-        curTF = transforms[ "right Upper Claw"];
         m = getModelViewMatrix( curTF);
         figure[leftUpperClawId] = createNode( m, upperClaw, rightUpperClawId, leftMiddleClawId );
         break;
 
     case rightMiddleClawId:
 
-        curTF = transforms[ "right Middle Claw"];
-        m = translate(0.0, upperClawHeight * 0.0, 0.0);
-        m = mult(m, rotate(theta[leftMiddleClawId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[leftMiddleClawId] = createNode( m, middleClaw, null, leftLowerClawId );
         break;
 
     case rightLowerClawId:
 
-        curTF = transforms[ "right Lower Claw"];
-        m = translate(0.0, lowerClawHeight + middleClawHeight*0.5, 0.0);
-        m = mult(m, rotate(theta[leftLowerClawId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[leftLowerClawId] = createNode( m, lowerClaw, null, null );
         break;
 
     case leftUpperClawId:
     
-        curTF = transforms[ "left Upper Claw"];
-        m = translate(neckWidth-upperClawWidth*0.5, upperClawHeight, 0.0);
-        m = mult(m, rotate(theta[rightUpperClawId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[rightUpperClawId] = createNode( m, upperClaw, null, rightMiddleClawId );
         break;
 
     case leftMiddleClawId:
 
-        curTF = transforms[ "left Middle Claw"];
-        m = translate(0.0, upperClawHeight, 0.0);
-        m = mult(m, rotate(theta[rightMiddleClawId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[rightMiddleClawId] = createNode( m, middleClaw, null, rightLowerClawId );
         break;
 
     case leftLowerClawId:
 
-        curTF = transforms[ "left Lower Claw"];
-        m = translate(0.0, lowerClawHeight, 0.0);
-        m = mult(m, rotate(theta[rightLowerClawId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[rightLowerClawId] = createNode( m, lowerClaw, null, null );
         break;
     
     case frontRightLegId:
     
-        curTF = transforms[ "front Right Leg"];
-        m = translate(-bodyWidth+2.5*legWidth, +bodyHeight-2.5*legHeight, bodyWidth+2*legWidth);
-        m = mult(m , rotate(theta[frontLeftLegId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[frontLeftLegId] = createNode( m, leg, frontRightLegId, null );
         break;
 
     case frontLeftLegId:
     
-        curTF = transforms[ "front Left Leg"];
-        m = translate(+bodyWidth-2.5*legWidth, +bodyHeight-2.5*legHeight, bodyWidth+2*legWidth);
-        m = mult(m, rotate(theta[frontRightLegId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[frontRightLegId] = createNode( m, leg, backLeftLegId, null );
         break;
     
     
     case backRightLegId:
 
-        curTF = transforms[ "back Right Leg"];
-        m = translate(-bodyWidth+2.5*legWidth, +bodyHeight-5.5*legHeight, bodyWidth+2*legWidth);
-        m = mult(m, rotate(theta[backLeftLegId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[backLeftLegId] = createNode( m, leg, backRightLegId, null );
         break;
 
     case backLeftLegId:
 
-        curTF = transforms[ "back Left Leg"];
-        m = translate(+bodyWidth-2.5*legWidth, +bodyHeight-5.5*legHeight, bodyWidth+2*legWidth);
-        m = mult(m, rotate(theta[backRightLegId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[backRightLegId] = createNode( m, leg, leftWingId, null );
         break;
     
 
     case leftWingId:
 
-        curTF = transforms[ "left Wing"];
-        m = translate(bodyWidth+wingWidth*0.25, 0, -4*wingThick);
-        m = mult(m, rotate(theta[leftWingId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[leftWingId] = createNode( m, wing, rightWingId, null );
         break;
 
     case rightWingId:
 
-        curTF = transforms[ "right Wing"];
-        m = translate(-bodyWidth-wingWidth*0.25, 0, -4*wingThick);
-        m = mult(m, rotate(theta[rightWingId], 1, 0, 0));
+        m = getModelViewMatrix( curTF);
         figure[rightWingId] = createNode( m, wing, null, null );
         break;
     
