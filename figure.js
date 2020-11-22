@@ -67,7 +67,7 @@ function scale4(a, b, c) {
    result[1][1] = b;
    result[2][2] = c;
    return result;
-}
+};
 
 //--------------------------------------------
 
@@ -94,16 +94,15 @@ window.onload = function init() {
     projectionMatrix = ortho(-15.0,15.0,-15.0, 15.0,-15.0,15.0);
     modelViewMatrix = mat4();
 
-        
     gl.uniformMatrix4fv(gl.getUniformLocation( program, "modelViewMatrix"), false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv( gl.getUniformLocation( program, "projectionMatrix"), false, flatten(projectionMatrix) );
     
     modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
     
-    // Find points for shapes
+    //********  POINT GENERATION  *********//
     findSpherePoints( 0.5, 0.5, 0.5, headSpherePoints, sphereColors);
-    console.log( "Sphere color count: " + sphereColors.length);
     cube();
+    //********  POINT GENERATION END *********//
     
     document.getElementById("slider0").onchange = function(event) {
         theta[bodyId] = event.target.value;
@@ -121,7 +120,10 @@ window.onload = function init() {
     };
     for(i=0; i<numNodes; i++) initNodes(i);
     
+    //********  UI  *********//
     buildModelUI( bodyId, null);
+    configureTransformUI();
+    //********  UI  END *********//
 
     render();
 }
@@ -156,14 +158,90 @@ function buildUIElement( curID, parentID)
 
         var node = document.createElement("LI");
         node.id = "child" + curID;
+
+        var nodeButton = document.createElement( "button");
+        nodeButton.id = "button" + curID;
+        nodeButton.value = curID; // hold the value so that when button click, 
+                                  // get corresponding name, 
+                                  // than get the transform from the dictionary, than display!
+        nodeButton.onclick = handleModelPieceClick;
+        node.appendChild( nodeButton);
+
         var textnode = document.createTextNode( modelIDNames[ curID].toUpperCase() );
-        node.appendChild(textnode); 
+        nodeButton.appendChild( textnode);
+
         parentNode.appendChild( node);
+};
+
+var transformUI = [
+    [],
+    [],
+    []
+];
+function configureTransformUI()
+{
+    let inputList = document.getElementsByClassName( "transformInput");
+    for ( let i = 0; i < 3; i++)
+    {
+        for ( let j = 0; j < 3; j++)
+        {
+            transformUI[i].push( inputList[ i * 3 + j]);
+            transformUI[i][ j].oninput = changeTransformMatrix;
+        }
+    }
+};
+
+function changeTransformMatrix(event)
+{
+    if ( previousButton !== null)
+    {
+        let num = parseInt(event.target.value);
+        if ( !Number.isNaN( num) )
+        {
+            // copy values from transformUI that holds inputs that 
+            let key = modelIDNames[ previousButton.value];
+            let modelTransform = transforms[ key];
+            let transformKeys = [ "pos", "rot", "scale"];
+            // has the values! to the corresponding transformMatrix found by previousButton
+            for ( let i = 0; i < 3; i++)
+            {
+                for ( let j = 0; j < 3; j++)
+                {
+                    modelTransform[ transformKeys[ i]][ j] = transformUI[ i][ j].value;
+                }
+            }
+        }
+    }
 }
+
+var previousButton = null;
+var currentTransform;
+function handleModelPieceClick( event)
+{
+    if ( previousButton !== null)
+    {
+        previousButton.disabled = false;
+    }
+    previousButton = event.target;
+    previousButton.disabled = true;
+
+    // find corresponding transform matrix
+    let key = modelIDNames[ previousButton.value];
+    let modelTransform = transforms[ key];
+    let transformKeys = [ "pos", "rot", "scale"];
+    // Send bodydata to the transform UI!
+    for ( let i = 0; i < 3; i++)
+    {
+        for ( let j = 0; j < 3; j++)
+        {
+            transformUI[ i][ j].value = modelTransform[ transformKeys[ i]][ j];
+        }
+    }
+};
 
 var render = function() {
 
         gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
         traverse(bodyId);
         requestAnimFrame(render);
-}
+};

@@ -56,56 +56,56 @@ var wingThick = 0.25;
 
 var transforms = {
     "body": {
-       "pos": [ 0, 0, 0],
-       "rot": [ 0, 0, 0],
-       "scale": [ 0, 0, 0]
+       "pos": [ 1, 2, 3],
+       "rot": [ 0, 90, 0],
+       "scale": [ 1, 1, 1]
     },
-    "neckId": {
+    "neck": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "headId": {
+     "head": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "leftUpperClawId": {
+     "left Upper Claw": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "leftMiddleClawId": {
+     "left Middle Claw": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "leftLowerClawId": {
+     "left Lower Claw": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "rightUpperClawId": {
+     "right Upper Claw": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "rightMiddleClawId": {
+     "right Middle Claw": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "rightLowerClawId": {
+     "right Lower Claw": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "frontLeftLegId": {
+     "front Left Leg": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "frontRightLegId": {
+     "front Right Leg": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
@@ -115,17 +115,17 @@ var transforms = {
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "backRightLegId": {
+     "back Right Leg": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "leftWingId": {
+     "left Wing": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
      },
-     "rightWingId": {
+     "right Wing": {
         "pos": [ 0, 0, 0],
         "rot": [ 0, 0, 0],
         "scale": [ 0, 0, 0]
