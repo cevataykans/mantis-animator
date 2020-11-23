@@ -81,7 +81,78 @@
             
             <hr>
             <div>
-                add other options here, maybe camera controls?
+                <div>
+                    <h2>Camera Settings</h2>
+                    <input type="radio" id="orthoRadioButton" name="selectedCam" checked>Orthographic</input>
+                    <input type="radio" id="perspectiveRadioButton" name="selectedCam">Perspective</input>
+                </div>
+                <hr>
+                <div>
+                    <label>Common Settings</label>
+                    <div>
+                        <div>
+                            radius 0.05<input id="radiusSlider" type="range"
+                            min="0.05" max="2" step="0.1" value="1" />
+                            2
+                        </div>
+                            theta -90<input id="thetaSlider" type="range"
+                            min="-90" max="90" step="5" value="0" />
+                            90
+                        </div>
+                        <div>
+                            phi -90<input id="phiSlider" type="range"
+                            min="-90" max="90" step="5" value="0" />
+                            90
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <label>Orthographic Settings</label>
+                    <div>
+                        <div>
+                            depth .05<input id="depthSlider" type="range"
+                            min=".05" max="3" step="0.1" value="2" />
+                            3
+                        </div>
+                        <div>
+                            width 1<input id="widthSlider" type="range"
+                            min="1" max="20" step="1" value="10" />
+                            20
+                        </div>
+                        <div>
+                            height 1<input id="heightSlider" type="range"
+                            min="1" max="20" step="1" value="10" />
+                            20
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <label>Perspective Settings</label>
+                    <div>
+                        <div>
+                            zNear .01<input id="zNearSlider" type="range"
+                            min=".01" max="3" step="0.1" value="0.3" />
+                            3
+                        </div>
+                        <div>
+                            zFar 3<input id="zFarSlider" type="range"
+                             min="3" max="10" step="3.0" value="3" />
+                            10
+                        </div>
+                        <div>
+                            fov 10<input id="fovSlider" type="range"
+                            min="10" max="120" step="5" value="45" />
+                            120
+                        </div>
+                        <div>
+                            aspect 0.5<input id="aspectSlider" type="range"
+                             min="0.5" max="2" step="0.1" value="1" />
+                             2
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
