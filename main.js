@@ -91,11 +91,39 @@ window.onload = function init() {
     setupOrthoCameraUI();
     setupPrespectiveCameraSettings();
     setupCameraController();
-    setupCameraTransformUI()
+    setupCameraTransformUI();
+
+    // FPS
+    canvas.requestPointerLock = canvas.requestPointerLock ||
+                            canvas.mozRequestPointerLock;
+
+    document.exitPointerLock = document.exitPointerLock ||
+                           document.mozExitPointerLock;
+
+    canvas.onclick = function() {
+        canvas.requestPointerLock();
+    };
+
+    // Hook pointer lock state change events for different browsers
+    document.addEventListener('pointerlockchange', lockChangeAlert, false);
+    document.addEventListener('mozpointerlockchange', lockChangeAlert, false); 
+    // END FPS
+
     //********  UI  END *********//
 
     render();
 }
+
+function lockChangeAlert() {
+    if (document.pointerLockElement === canvas ||
+        document.mozPointerLockElement === canvas) {
+      console.log('The pointer lock status is now locked');
+      document.addEventListener("mousemove", updateCameraAngle, false);
+    } else {
+      console.log('The pointer lock status is now unlocked');
+      document.removeEventListener("mousemove", updateCameraAngle, false);
+    }
+  }
 
 function buildModelUI( curID, parentID)
 {
@@ -222,7 +250,7 @@ var render = function() {
             eye = cameraTransform[ "pos"];
             let lookDirection = getLookDirection( 100, 2);
             lookDirection = add( eye, lookDirection);
-            camModelViewMatrix = lookAt(eye, lookDirection, vec3( cameraOrientation[ 1]));
+            camModelViewMatrix = lookAt(eye, lookDirection, vec3( realCamOrientation[1]));
             projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
         }
 

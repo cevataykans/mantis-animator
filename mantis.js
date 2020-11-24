@@ -60,8 +60,8 @@ var theta = [120, -45, 45, 45, 0, -30, 90, -90, 45, 0, 0, 0, 0, 0, 0, 0, 150]; /
 // Model View Transforms
 var transforms = [
     { //"body",
-       "pos": [ 0.0, neckHeight - headHeight * 0.2, 0.0],
-       "rot": [ theta[bodyId], theta[bodyAngleY], theta[bodyAngleZ]], 
+       "pos": [ 0.0, 0, 0.0],
+       "rot": [ 0, 0, 0], 
        "scale": [ 1, 1, 1]
     },
     { //"neck",

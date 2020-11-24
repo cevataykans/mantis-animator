@@ -13,7 +13,7 @@ var camBottom = -15.0;
 var camFovy = 60.0;  // Field-of-view in Y direction angle (in degrees)
 var camAspect = 1.0;       // Viewport aspect ratio
 var camNearPers = 0.3;
-var camFarPers = 15;
+var camFarPers = 100;
 
 var eye;
 const camAt = vec3(0.0, 0.0, 0.0);
@@ -35,7 +35,7 @@ var keyDowns = {
 };
 
 var cameraTransform = {
-    "pos": [ 0.0, 0.0, -5],
+    "pos": [ 0.0, 0.0, -15],
     "rot": [ 0.0, 0.0, 0.0], 
     "scale": [ 1, 1, 1]
 };
@@ -116,6 +116,16 @@ function setupCameraSelection()
     lockCameraSettings( false, true);
 }
 
+function updateCameraAngle(e)
+{
+    cameraTransform[ "rot"][ 1] += ( e.movementX / 100.0);
+    cameraTransform[ "rot"][ 0] -= ( e.movementY / 100.0);
+    updateCameraTransformUI();
+    realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 0], 1, 0, 0), cameraOrientation);
+    realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 1], 0, 1, 0), realCamOrientation);
+    realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 2], 0, 0, 1), realCamOrientation);
+}
+
 function lockCameraSettings( setOrtho, setPerspective)
 {
     for ( let j = 0; j < perpectiveSettings.length; j++)
@@ -135,20 +145,24 @@ function setupCameraController()
         keyDowns[ event.key] = true;
         if ( keyDowns[ "a"])
         {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(5, 0));
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 0));
+            updateCameraTransformUI();
         }
         else if ( keyDowns[ "d"])
         {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-5, 0));
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 0));
+            updateCameraTransformUI();
         }
 
         if ( keyDowns[ "w"])
         {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(5, 2));
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 2));
+            updateCameraTransformUI();
         }
         else if ( keyDowns[ "s"])
         {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-5, 2));
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 2));
+            updateCameraTransformUI();
         }
 
 
@@ -178,19 +192,25 @@ function setupCameraTransformUI()
         {
             cameraTFUIElements[ i].push( cameraTransformInputElements[ i * 3 + j] );
             cameraTFUIElements[ i][j].oninput = updateCameraTransformLogic;
-            updateCameraTransformUI( i, j);
         }
     }
+    updateCameraTransformUI();
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 0], 1, 0, 0), cameraOrientation);
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 1], 0, 1, 0), realCamOrientation);
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 2], 0, 0, 1), realCamOrientation);
 };
 
-function updateCameraTransformUI( i, j)
+function updateCameraTransformUI()
 {
     let transformKeys = [ "pos", "rot"];
-    cameraTFUIElements[ i][j].value = cameraTransform[ transformKeys[ i]][ j];
-};
+    for ( let i = 0; i < 2; i++)
+    {
+        for ( let j = 0; j < 3; j++)
+        {
+            cameraTFUIElements[ i][j].value = (cameraTransform[ transformKeys[ i]][ j] % 360);
+        }
+    }
+}
 
 function updateCameraTransformLogic(event)
 {
