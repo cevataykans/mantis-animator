@@ -33,6 +33,22 @@
             .transformInput {
                 width: 50px;
             }
+
+            .camTransform {
+                text-align: left;
+                margin-right: auto;
+                width: 200px
+            }
+
+            .camTransformInput {
+                width: 50px;
+            }
+
+            .camTransformComponent {
+                float: left;
+                margin: 10px;
+                margin-right: auto;
+            }
         </style>
         
         <script id="vertex-shader" type="x-shader/x-vertex">
@@ -142,6 +158,35 @@
                         </div>
                     </div>
                 </div>
+                <h2> Camera Transform</h2>
+                <div>
+                    <hr style="width:100%;text-align:left;margin-left:0;">
+                    <div>
+                        <h4 class="camTransformComponent">Position:</h4>
+                        <div class="camTransformComponent">
+                            X: <input class="camTransformInput" type="text" id="posX" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Y: <input class="camTransformInput" type="text" id="posY" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Z: <input class="camTransformInput" type="text" id="posZ" value="-" placeholder="0">
+                        </div>
+                    </div>
+                    <hr style="width:100%;text-align:left;margin-left:0;">
+                    <div>
+                        <h4 class="camTransformComponent">Rotation:</h4>
+                        <div class="camTransformComponent">
+                            X: <input class="camTransformInput" type="text" id="rotX" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Y: <input class="camTransformInput" type="text" id="rotY" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Z: <input class="camTransformInput" type="text" id="rotZ" value="-" placeholder="0">
+                        </div>
+                    </div>
+                    <hr style="width:100%;text-align:left;margin-left:0;">
             </div>
         </div>
 

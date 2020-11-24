@@ -90,6 +90,8 @@ window.onload = function init() {
     setupCommonCameraSettings();
     setupOrthoCameraUI();
     setupPrespectiveCameraSettings();
+    setupCameraController();
+    setupCameraTransformUI()
     //********  UI  END *********//
 
     render();
@@ -173,7 +175,7 @@ function changeTransformMatrix(event)
             {
                 for ( let j = 0; j < 3; j++)
                 {
-                    modelTransform[ transformKeys[ i]][ j] = transformUI[ i][ j].value;
+                    modelTransform[ transformKeys[ i]][ j] = parseInt( transformUI[ i][ j].value);
                 }
             }
             initNodes( parseInt( previousButton.value)); // do not change!
@@ -212,16 +214,17 @@ var render = function() {
         if ( isCameraOrtho)
         {
             eye = vec3( camRadius * Math.sin( camPhi), camRadius * Math.sin( camTheta), camRadius * Math.cos( camPhi));
-            //camModelViewMatrix = lookAt( eye, camAt , camUp);
+            camModelViewMatrix = lookAt(eye, camAt, camUp);
             projectionMatrix = ortho( camLeft, camRight, camBottom, camYTop, camNearOrtho, camFarOrtho);
         }
         else
         {
-            eye = vec3( camRadius * Math.sin( camTheta) * Math.cos( camPhi), camRadius * Math.sin( camTheta) * Math.sin( camPhi), camRadius * Math.cos( camTheta));
-            //camModelViewMatrix = lookAt(eye, camAt , camUp);
+            eye = cameraTransform[ "pos"];
+            let lookDirection = getLookDirection( 100, 2);
+            lookDirection = add( eye, lookDirection);
+            camModelViewMatrix = lookAt(eye, lookDirection, vec3( cameraOrientation[ 1]));
             projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
         }
-        camModelViewMatrix = lookAt(eye, camAt , camUp);
 
         gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
         gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
