@@ -5,33 +5,13 @@ var program;
 
 var projectionMatrix; 
 var modelViewMatrix;
+var camModelViewMatrix;
 
 var instanceMatrix;
 
+var camModelViewLoc;
 var modelViewMatrixLoc;
-
-var vertices = [
-
-    vec4( -0.5, -0.5,  0.5, 1.0 ),
-    vec4( -0.5,  0.5,  0.5, 1.0 ),
-    vec4( 0.5,  0.5,  0.5, 1.0 ),
-    vec4( 0.5, -0.5,  0.5, 1.0 ),
-    vec4( -0.5, -0.5, -0.5, 1.0 ),
-    vec4( -0.5,  0.5, -0.5, 1.0 ),
-    vec4( 0.5,  0.5, -0.5, 1.0 ),
-    vec4( 0.5, -0.5, -0.5, 1.0 )
-]; // CAN BE MOVED TO COMMON SHAPES
-
-var vertexColors = [
-    [ 0.0, 0.0, 0.0, 1.0 ],  // black
-    [ 1.0, 0.0, 0.0, 1.0 ],  // red
-    [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
-    [ 0.0, 1.0, 0.0, 1.0 ],  // green
-    [ 0.0, 0.0, 1.0, 1.0 ],  // blue
-    [ 1.0, 0.0, 1.0, 1.0 ],  // magenta
-    [ 0.0, 1.0, 1.0, 1.0 ],  // cyan
-    [ 1.0, 1.0, 1.0, 1.0 ]   // white
-]; // CAN BE MOVED TO COMMON SHAPES
+var projectionMatrixLoc;
 
 var colorI = 0;
 
@@ -88,26 +68,28 @@ window.onload = function init() {
     gl.enable(gl.DEPTH_TEST);
 
     instanceMatrix = mat4();
-    
-    projectionMatrix = ortho(-15.0,15.0,-15.0, 15.0,-15.0,15.0);
     modelViewMatrix = mat4();
+    camModelViewMatrix = mat4();
 
-    gl.uniformMatrix4fv(gl.getUniformLocation( program, "modelViewMatrix"), false, flatten(modelViewMatrix) );
-    gl.uniformMatrix4fv( gl.getUniformLocation( program, "projectionMatrix"), false, flatten(projectionMatrix) );
-    
-    modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix")
-    
+    modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix");
+    camModelViewLoc = gl.getUniformLocation(program, "camModelViewMatrix");
+    projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
+
     //********  POINT GENERATION  *********//
     findSpherePoints( 0.5, 0.5, 0.5, headSpherePoints, sphereColors);
     cube();
     //********  POINT GENERATION END *********//
     
-
     for(i=0; i<numNodes; i++) initNodes(i);
     
     //********  UI  *********//
     buildModelUI( bodyId, null);
     configureTransformUI();
+
+    setupCameraSelection()
+    setupCommonCameraSettings();
+    setupOrthoCameraUI();
+    setupPrespectiveCameraSettings();
     //********  UI  END *********//
 
     render();
@@ -226,6 +208,24 @@ function handleModelPieceClick( event)
 var render = function() {
 
         gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+
+        if ( isCameraOrtho)
+        {
+            eye = vec3( camRadius * Math.sin( camPhi), camRadius * Math.sin( camTheta), camRadius * Math.cos( camPhi));
+            //camModelViewMatrix = lookAt( eye, camAt , camUp);
+            projectionMatrix = ortho( camLeft, camRight, camBottom, camYTop, camNearOrtho, camFarOrtho);
+        }
+        else
+        {
+            eye = vec3( camRadius * Math.sin( camTheta) * Math.cos( camPhi), camRadius * Math.sin( camTheta) * Math.sin( camPhi), camRadius * Math.cos( camTheta));
+            //camModelViewMatrix = lookAt(eye, camAt , camUp);
+            projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
+        }
+        camModelViewMatrix = lookAt(eye, camAt , camUp);
+
+        gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
+        gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
+
         traverse(bodyId);
         requestAnimFrame(render);
 };
