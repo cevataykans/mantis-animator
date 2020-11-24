@@ -31,7 +31,9 @@ var keyDowns = {
     "w": false,
     "a": false,
     "d": false,
-    "s": false
+    "s": false,
+    "space": false,
+    "alt": false
 };
 
 var cameraTransform = {
@@ -165,7 +167,16 @@ function setupCameraController()
             updateCameraTransformUI();
         }
 
-
+        if ( keyDowns[ " "])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 1));
+            updateCameraTransformUI();
+        }
+        else if ( keyDowns[ "Alt"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 1));
+            updateCameraTransformUI();
+        }
     }, false);
 
     document.addEventListener( "keyup", (event) => {
