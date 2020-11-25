@@ -20,9 +20,11 @@ const camAt = vec3(0.0, 0.0, 0.0);
 const camUp = vec3( 0.0, 1.0, 0.0);
 // Important!
 var cameraOrientation = mat4( 1);
-var realCamOrientation;
+var realCamOrientation = cameraOrientation;
 
 var isCameraOrtho = true;
+var isInFPS = false;
+var enableHardFocus = false;
 
 var orthoSettings;
 var perpectiveSettings;
@@ -48,122 +50,167 @@ var cameraTFUIElements = [
 
 var refreshRate = 1.0 / 60;
 
-function setupCommonCameraSettings()
+function setupCameraUI()
 {
-    document.getElementById("radiusSliderID").oninput = function(event) {
-        camRadius = event.target.value;
-     };
-     document.getElementById("thetaSlider").oninput = function(event) {
-         camTheta = event.target.value * Math.PI / 180.0;
-     };
-     document.getElementById("phiSlider").oninput = function(event) {
-         camPhi = event.target.value * Math.PI / 180.0;
-     };
-}
+    function setupOrthoCameraUI()
+    {
+        document.getElementById("radiusSliderID").oninput = function(event) {
+            camRadius = event.target.value;
+        };
 
-function setupOrthoCameraUI()
-{
-    document.getElementById("depthSlider").oninput = function(event) {
+        document.getElementById("thetaSlider").oninput = function(event) {
+            camTheta = event.target.value * Math.PI / 180.0;
+        };
+
+        document.getElementById("phiSlider").oninput = function(event) {
+            camPhi = event.target.value * Math.PI / 180.0;
+        };
+
+        document.getElementById("depthSlider").oninput = function(event) {
             camFarOrtho = event.target.value / 2;
             camNearOrtho = -event.target.value / 2;
-    };
+        };
 
-    document.getElementById("heightSlider").oninput = function(event) {
+        document.getElementById("heightSlider").oninput = function(event) {
             camYTop = event.target.value / 2;
             camBottom = -event.target.value / 2;
-    };
-    document.getElementById("widthSlider").oninput = function(event) {
+        };
+        document.getElementById("widthSlider").oninput = function(event) {
             camRight = event.target.value / 2;
             camLeft = -event.target.value / 2;
+        };
     };
-};
 
-function setupPrespectiveCameraSettings()
-{
-    document.getElementById("zFarSlider").oninput = function(event) {
-        camFarPers = event.target.value;
-    };
-    document.getElementById("zNearSlider").oninput = function(event) {
-        camNearPers = event.target.value;
-    };
-    document.getElementById("aspectSlider").oninput = function(event) {
-            camAspect = event.target.value;
-    };
-    document.getElementById("fovSlider").oninput = function(event) {
-            camFovy = event.target.value;
-    };
-};
-
-function setupCameraSelection()
-{
-    orthoSettings = document.getElementsByName( "orthoSettings");
-    perpectiveSettings = document.getElementsByName( "perspectiveSettings");
-
-    let radioButtons = document.getElementsByName( "selectedCam");
-    radioButtons[1].checked = true;
-    isCameraOrtho = false;
-    for ( let i = 0; i < radioButtons.length; i++)
+    function setupPrespectiveCameraSettings()
     {
-        radioButtons[ i].onclick = function( event)
+        document.getElementById("zFarSlider").oninput = function(event) {
+            camFarPers = event.target.value;
+        };
+        document.getElementById("zNearSlider").oninput = function(event) {
+            camNearPers = event.target.value;
+        };
+        document.getElementById("aspectSlider").oninput = function(event) {
+            camAspect = event.target.value;
+        };
+        document.getElementById("fovSlider").oninput = function(event) {
+            camFovy = event.target.value;
+        };
+    };
+
+    function setupCameraSelection()
+    {
+        orthoSettings = document.getElementsByName( "orthoSettings");
+        perpectiveSettings = document.getElementsByName( "perspectiveSettings");
+
+        let radioButtons = document.getElementsByName( "selectedCam");
+        radioButtons[1].checked = true;
+        isCameraOrtho = false;
+        for ( let i = 0; i < radioButtons.length; i++)
         {
-            isCameraOrtho = event.target.id === "orthoRadioButton";
-            if ( isCameraOrtho)
+            radioButtons[ i].onclick = function( event)
             {
-                lockCameraSettings( false, true);
-            }
-            else
-            {
-                lockCameraSettings( true, false);
+                isCameraOrtho = event.target.id === "orthoRadioButton";
+                if ( isCameraOrtho)
+                {
+                    lockCameraSettings( false, true);
+                }
+                else
+                {
+                    lockCameraSettings( true, false);
+                }
             }
         }
-    }
-    lockCameraSettings( true, false);
+        lockCameraSettings( true, false);
+
+        let hardFocusCheckBox = document.getElementById( "hardFocusCheckBox");
+        hardFocusCheckBox.addEventListener( "input", (event) => {
+            enableHardFocus = event.target.checked;
+        }, false);
+    };
+
+    function setupCameraController()
+    {
+        document.addEventListener( "keydown", (event) => {
+            keyDowns[ event.key] = true;
+        }, false);
+
+        document.addEventListener( "keyup", (event) => {
+            keyDowns[ event.key] = false;
+        }, false);
+    };
+
+    function setupCameraTransformUI()
+    {
+        let cameraTransformInputElements = document.getElementsByClassName( "camTransformInput");
+        for ( let i = 0; i < 2; i++)
+        {
+            for ( let j = 0; j < 3; j++)
+            {
+                cameraTFUIElements[ i].push( cameraTransformInputElements[ i * 3 + j] );
+                cameraTFUIElements[ i][j].oninput = updateCameraTransformLogic;
+            }
+        }
+        updateCameraTransformUI();
+        realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 0], 1, 0, 0), cameraOrientation);
+        realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 1], 0, 1, 0), realCamOrientation);
+        realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 2], 0, 0, 1), realCamOrientation);
+    };
+
+
+    setupCameraSelection()
+    setupOrthoCameraUI();
+    setupPrespectiveCameraSettings();
+    setupCameraController();
+    setupCameraTransformUI();
 };
 
 function moveCamera()
 {
-    if ( keyDowns[ "a"])
+    if ( isInFPS)
     {
-        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 0));
-        updateCameraTransformUI();
-    }
-    else if ( keyDowns[ "d"])
-    {
-        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 0));
-        updateCameraTransformUI();
-    }
-
-    if ( keyDowns[ "w"])
-    {
-        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 2));
-        updateCameraTransformUI();
-    }
-    else if ( keyDowns[ "s"])
-    {
-        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 2));
-        updateCameraTransformUI();
-    }
-
-    if ( keyDowns[ "Shift"])
-    {
-        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 1));
-        updateCameraTransformUI();
-    }
-    else if ( keyDowns[ "Alt"])
-    {
-        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 1));
-        updateCameraTransformUI();
+        if ( keyDowns[ "a"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 0));
+            updateCameraTransformUI();
+        }
+        else if ( keyDowns[ "d"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 0));
+            updateCameraTransformUI();
+        }
+    
+        if ( keyDowns[ "w"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 2));
+            updateCameraTransformUI();
+        }
+        else if ( keyDowns[ "s"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 2));
+            updateCameraTransformUI();
+        }
+    
+        if ( keyDowns[ "Shift"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 1));
+            updateCameraTransformUI();
+        }
+        else if ( keyDowns[ "Alt"])
+        {
+            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 1));
+            updateCameraTransformUI();
+        }
     }
 };
 
 function lockChangeAlert() {
     if (document.pointerLockElement === canvas ||
         document.mozPointerLockElement === canvas) {
-      console.log('The pointer lock status is now locked');
       document.addEventListener("mousemove", updateCameraAngle, false);
+      isInFPS = true;
     } else {
-      console.log('The pointer lock status is now unlocked');
       document.removeEventListener("mousemove", updateCameraAngle, false);
+      isInFPS = false;
     }
   };
 
@@ -171,6 +218,7 @@ function updateCameraAngle(e)
 {
     cameraTransform[ "rot"][ 1] += ( e.movementX / 100.0);
     cameraTransform[ "rot"][ 0] -= ( e.movementY / 100.0);
+
     updateCameraTransformUI();
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 0], 1, 0, 0), cameraOrientation);
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 1], 0, 1, 0), realCamOrientation);
@@ -190,17 +238,6 @@ function lockCameraSettings( setOrtho, setPerspective)
     }
 };
 
-function setupCameraController()
-{
-    document.addEventListener( "keydown", (event) => {
-        keyDowns[ event.key] = true;
-    }, false);
-
-    document.addEventListener( "keyup", (event) => {
-        keyDowns[ event.key] = false;
-    }, false);
-};
-
 function getLookDirection( distance, axis)
 {
     let normalizedDirection = normalize( vec3( realCamOrientation[ axis]));
@@ -209,23 +246,6 @@ function getLookDirection( distance, axis)
         normalizedDirection[ i] *= distance;
     }
     return normalizedDirection;
-};
-
-function setupCameraTransformUI()
-{
-    let cameraTransformInputElements = document.getElementsByClassName( "camTransformInput");
-    for ( let i = 0; i < 2; i++)
-    {
-        for ( let j = 0; j < 3; j++)
-        {
-            cameraTFUIElements[ i].push( cameraTransformInputElements[ i * 3 + j] );
-            cameraTFUIElements[ i][j].oninput = updateCameraTransformLogic;
-        }
-    }
-    updateCameraTransformUI();
-    realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 0], 1, 0, 0), cameraOrientation);
-    realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 1], 0, 1, 0), realCamOrientation);
-    realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 2], 0, 0, 1), realCamOrientation);
 };
 
 function updateCameraTransformUI()
@@ -240,6 +260,7 @@ function updateCameraTransformUI()
     }
 };
 
+/* Depreciated? */
 function updateCameraTransformLogic(event)
 {
         let num = parseInt(event.target.value);

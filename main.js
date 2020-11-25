@@ -89,13 +89,8 @@ window.onload = function init() {
     //********  UI  *********//
     buildModelUI( bodyId, null);
     configureTransformUI();
-
-    setupCameraSelection()
-    setupCommonCameraSettings();
-    setupOrthoCameraUI();
-    setupPrespectiveCameraSettings();
-    setupCameraController();
-    setupCameraTransformUI();
+    setupCameraUI();
+    setupAnimationUI();
 
     // FPS
     canvas.requestPointerLock = canvas.requestPointerLock ||
@@ -200,9 +195,16 @@ var render = function() {
             else
             {
                 eye = cameraTransform[ "pos"];
-                let lookDirection = getLookDirection( 100, 2);
-                lookDirection = add( eye, lookDirection);
-                camModelViewMatrix = lookAt(eye, lookDirection, vec3( realCamOrientation[1]));
+                if ( enableHardFocus)
+                {
+                    camModelViewMatrix = lookAt(eye, transforms[0]["pos"], vec3( realCamOrientation[1]));
+                }
+                else
+                {
+                    let lookDirection = getLookDirection( 100, 2);
+                    lookDirection = add( eye, lookDirection);
+                    camModelViewMatrix = lookAt(eye, lookDirection, vec3( realCamOrientation[1]));
+                }
                 projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
             }
 
@@ -212,27 +214,4 @@ var render = function() {
             traverse(bodyId);
             moveCamera();
         }
-        /*
-        gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
-
-        if ( isCameraOrtho)
-        {
-            eye = vec3( camRadius * Math.sin( camPhi), camRadius * Math.sin( camTheta), camRadius * Math.cos( camPhi));
-            camModelViewMatrix = lookAt(eye, camAt, camUp);
-            projectionMatrix = ortho( camLeft, camRight, camBottom, camYTop, camNearOrtho, camFarOrtho);
-        }
-        else
-        {
-            eye = cameraTransform[ "pos"];
-            let lookDirection = getLookDirection( 100, 2);
-            lookDirection = add( eye, lookDirection);
-            camModelViewMatrix = lookAt(eye, lookDirection, vec3( realCamOrientation[1]));
-            projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
-        }
-
-        gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
-        gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
-
-        traverse(bodyId);*/
-        //requestAnimFrame(render);
 };
