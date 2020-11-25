@@ -117,7 +117,7 @@ function setupCameraSelection()
             }
         }
     }
-    lockCameraSettings( false, true);
+    lockCameraSettings( true, false);
 };
 
 function moveCamera()
@@ -144,7 +144,7 @@ function moveCamera()
         updateCameraTransformUI();
     }
 
-    if ( keyDowns[ " "])
+    if ( keyDowns[ "Shift"])
     {
         cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 1));
         updateCameraTransformUI();
