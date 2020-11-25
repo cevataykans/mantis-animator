@@ -342,9 +342,9 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(bodyProportions[0], bodyProportions[1], bodyProportions[2]));
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
-
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     prepareData( cyclinderPoints, cyclinderColors);
+     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
+     //for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
  function neck() {
@@ -446,11 +446,11 @@ function  lowerLeg() {
      for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
 
- function prepareData( pointsArray, colorsArray, normal = null, texture = null)
+ function prepareData( pointsToSet, colorsToSet, normal = null, texture = null)
  {
      cBuffer = gl.createBuffer();
      gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-     gl.bufferData(gl.ARRAY_BUFFER, flatten(colorsArray), gl.STATIC_DRAW);
+     gl.bufferData(gl.ARRAY_BUFFER, flatten(colorsToSet), gl.STATIC_DRAW);
 
      var vColor = gl.getAttribLocation( program, "vColor" );
      gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );
@@ -458,7 +458,7 @@ function  lowerLeg() {
 
      vBuffer = gl.createBuffer();
      gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsToSet), gl.STATIC_DRAW);
 
      var vPosition = gl.getAttribLocation( program, "vPosition" );
      gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
