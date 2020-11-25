@@ -70,6 +70,13 @@
                 margin-left: 10px;
                 font-size: 16px;
             }
+
+            .animationButton {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                padding: 5px;
+                width: 100px;
+            }
         </style>
         
         <script id="vertex-shader" type="x-shader/x-vertex">
@@ -114,7 +121,7 @@
         <div class="hierarchy">
 
             <div style="text-align: center; margin-bottom: 5px; margin-top: 5px;">
-                <label>Model Hierarchy</label>
+                <label>Model Hierarchy Window</label>
             </div>
 
             <ul id="menunull">
@@ -228,9 +235,10 @@
 
         <div class="transform">
             <div>
-                <h2>Transform</h2>
-                <div>
-                    <hr style="width:100%;text-align:left;margin-left:0;">
+                <div style="text-align: center; margin-bottom: 5px;">
+                    <label>Transform Window</label>
+                 </div>
+                <div class="setting">
                     <div>
                         <h4 class="transformComponent">Position:</h4>
                         <div class="transformComponent">
@@ -243,7 +251,6 @@
                             Z: <input class="transformInput" type="number" id="posZ" value="0" placeholder="0" step="1">
                         </div>
                     </div>
-                    <hr style="width:100%;text-align:left;margin-left:0;">
                     <div>
                         <h4 class="transformComponent">Rotation:</h4>
                         <div class="transformComponent">
@@ -256,7 +263,6 @@
                             Z: <input class="transformInput" type="number" id="rotZ" value="0" placeholder="0" step="1">
                         </div>
                     </div>
-                    <hr style="width:100%;text-align:left;margin-left:0;">
                     <div>
                         <h4 class="transformComponent">Scale:</h4>
                         <div class="transformComponent">
@@ -271,10 +277,33 @@
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 100px;">
-                <h2>Model Render Position</h2>
-                <div>
-                    add camera controls, animations options below here
+            <div style="padding-top: 50%;">
+                <div style="text-align: center;">
+                    <div style="margin-bottom: 20px;">
+                        <label>Animation Window</label>
+                    </div>
+                    <div>
+                        <div>
+                            <label>Load Anim</label>
+                            <input style="width: 150px;" type="file" id="animationLoadFile" name="myAnimation">
+                        </div>
+                        <div>
+                            <label>Save Anim</label>
+                            <input style="width: 100px;" type="text" id="fname" name="fname">   
+                            <button class="animationButton" type="button" id="saveAnimationButton">Save</button>          
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Animator Options</label>
+                        <div style="text-align: center; margin-top: 5px;">
+                            <input type="radio" id="frameRadioButton" name="selectedAnimOption">Frame by frame</input>
+                            <input type="radio" id="interpolateRadioButton" name="selectedAnimOption" checked>Interpolate between frames</input>
+                        </div>
+                        <div>
+                            <button class="animationButton" type="button" id="startCaptureButton">Start Capture</button>
+                            <button class="animationButton" type="button" id="saveFrameButton">Save Frame</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
