@@ -194,38 +194,6 @@ function setupCameraController()
 {
     document.addEventListener( "keydown", (event) => {
         keyDowns[ event.key] = true;
-        /*if ( keyDowns[ "a"])
-        {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 0));
-            updateCameraTransformUI();
-        }
-        else if ( keyDowns[ "d"])
-        {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 0));
-            updateCameraTransformUI();
-        }
-
-        if ( keyDowns[ "w"])
-        {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 2));
-            updateCameraTransformUI();
-        }
-        else if ( keyDowns[ "s"])
-        {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 2));
-            updateCameraTransformUI();
-        }
-
-        if ( keyDowns[ " "])
-        {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 1));
-            updateCameraTransformUI();
-        }
-        else if ( keyDowns[ "Alt"])
-        {
-            cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 1));
-            updateCameraTransformUI();
-        }*/
     }, false);
 
     document.addEventListener( "keyup", (event) => {

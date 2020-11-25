@@ -104,7 +104,7 @@ function findSphereTriangles( spherePointIndices, points, colors)
 
 //*******************  Cyclinder *******************//
 
-function findCyclinderPoints( radius, height, points)
+function findCyclinderPoints( radius, height, points, colors)
 {
     var cyclinderPointIndices = [];
 
@@ -133,8 +133,8 @@ function findCyclinderPoints( radius, height, points)
     for ( let i = 0; i <= sectorCount; i++)
     {
         // push points
-        var temp = cyclinderPoints[ i];
-        cyclinderPointIndices.push( vec4(temp[ 0], temp[ 1], temp[ 2] + height, 1) );
+        var temp = cyclinderPointIndices[ i];
+        cyclinderPointIndices.push( vec4( temp[ 0], temp[ 1], temp[ 2] + height, 1) );
 
         // Push colors
 
@@ -142,10 +142,10 @@ function findCyclinderPoints( radius, height, points)
 
         // Push textures
     }
-    findCyclinderTriangles( cyclinderPointIndices, points);
+    findCyclinderTriangles( cyclinderPointIndices, points, colors);
 }
 
-function findCyclinderTriangles( cyclinderPointIndices, points)
+function findCyclinderTriangles( cyclinderPointIndices, points, colors)
 {
     let upper = sectorCount + 1;
     for ( let i = 0; i < sectorCount; i++)
@@ -155,19 +155,35 @@ function findCyclinderTriangles( cyclinderPointIndices, points)
         points.push( cyclinderPointIndices[ i + 1]);
         points.push( cyclinderPointIndices[ i + 1 + upper]);
 
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
+
         points.push( cyclinderPointIndices[ i]);
         points.push( cyclinderPointIndices[ i + 1 + upper]);
         points.push( cyclinderPointIndices[ i + upper]);
+
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
 
         // lower circle
         points.push( cyclinderPointIndices[ i] );
         points.push( cyclinderPointIndices[ i + 1]);
         points.push( vec4( 0, 0, cyclinderPointIndices[ i][ 2], 1));
 
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
+
         // upper circle
         points.push( cyclinderPointIndices[ i + 1 + upper] );
         points.push( cyclinderPointIndices[ i + upper]);
         points.push( vec4( 0, 0, -cyclinderPointIndices[ i][ 2], 1));
+
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
+        colors.push( vertexColors[ 3]);
     }
 }
 
