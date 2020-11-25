@@ -16,8 +16,8 @@ var projectionMatrixLoc;
 var colorI = 0;
 
 
-var numNodes = 15;
-var numAngles = 17;
+var numNodes = 23;
+var numAngles = 69;
 var angle = 0;
 
 var numVertices = 24;
@@ -34,8 +34,11 @@ var modelViewLoc;
 var pointsArray = [];
 var colorsArray = [];
 
-var headSpherePoints = [];
+var spherePoints = [];
 var sphereColors = [];
+
+var cyclinderPoints = [];
+var cyclinderColors = [];
 
 //-------------------------------------------
 
@@ -76,8 +79,9 @@ window.onload = function init() {
     projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
 
     //********  POINT GENERATION  *********//
-    findSpherePoints( 0.5, 0.5, 0.5, headSpherePoints, sphereColors);
     cube();
+    findSpherePoints( 1, 1, 1, spherePoints, sphereColors);
+    //findCyclinderPoints(1, 1, cyclinderPoints);
     //********  POINT GENERATION END *********//
     
     for(i=0; i<numNodes; i++) initNodes(i);

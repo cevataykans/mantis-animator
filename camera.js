@@ -100,6 +100,8 @@ function setupCameraSelection()
     perpectiveSettings = document.getElementsByName( "perspectiveSettings");
 
     let radioButtons = document.getElementsByName( "selectedCam");
+    radioButtons[1].checked = true;
+    isCameraOrtho = false;
     for ( let i = 0; i < radioButtons.length; i++)
     {
         radioButtons[ i].onclick = function( event)

@@ -1,5 +1,5 @@
-var sectorCount = 20; // Change names
-var stackCount = 20; //TODO: add sectorCount and stackCount as an argument!
+var sectorCount = 50; // Change names
+var stackCount = 50; //TODO: add sectorCount and stackCount as an argument!
 
 var vertices = [
     vec4( -0.5, -0.5,  0.5, 1.0 ),
@@ -120,7 +120,7 @@ function findCyclinderPoints( radius, height, points)
         y = radius * Math.sin( sectorAngle);
 
         // Push points
-        cyclinderPointIndicess.push( vec4( x, y, -height / 2, 1) );
+        cyclinderPointIndices.push( vec4( x, y, -height / 2, 1) );
 
         // Push colors
 
