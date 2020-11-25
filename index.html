@@ -9,12 +9,15 @@
                 margin-left: 10px;
                 margin-right: 10px;
                 float: left;
+                width: 50%;
 			}
 
             .hierarchy {
                 float: left;
                 border: 2px solid black;
-                width: auto;
+                width: 25%;
+                max-width: fit-content;
+                max-height: fit-content;
             }
 
             .transform {
@@ -22,6 +25,9 @@
                 border: 2px solid black;
                 text-align: center;
                 margin-right: auto;
+                width: 25%;
+                max-width: fit-content;
+                max-height: fit-content;
             }
 
             .transformComponent {
@@ -35,7 +41,7 @@
             }
 
             .camTransform {
-                text-align: left;
+                margin-left: 10px;
                 margin-right: auto;
                 width: 200px
             }
@@ -48,6 +54,21 @@
                 float: left;
                 margin: 10px;
                 margin-right: auto;
+            }
+
+            .setting {
+                margin-left: 10px;
+            }
+
+            label {
+                text-align: center;
+                font-weight: bold;
+                font-size: 18px;
+            }
+
+            .sliderLabel {
+                margin-left: 10px;
+                font-size: 16px;
             }
         </style>
         
@@ -92,8 +113,9 @@
     <body>
         <div class="hierarchy">
 
-            <h2 style="text-align: center;">Model Hierarchy</h2>
-            <hr>
+            <div style="text-align: center; margin-bottom: 5px; margin-top: 5px;">
+                <label>Model Hierarchy</label>
+            </div>
 
             <ul id="menunull">
             </ul>
@@ -101,67 +123,75 @@
             <hr>
             <div>
                 <div>
-                    <h2>Camera Settings</h2>
-                    <input type="radio" id="orthoRadioButton" name="selectedCam" checked>Orthographic</input>
-                    <input type="radio" id="perspectiveRadioButton" name="selectedCam">Perspective</input>
-                </div>
-                <hr>
-                <div>
-                    <label>Common Settings</label>
-                    <div>
-                        <div>
-                            radius 1<input id="radiusSliderID" type="range"
-                            min="0.11" max="100" step="0.1" value="1" />
-                            100
-                        </div>
-                            theta 0<input id="thetaSlider" type="range"
-                            min="0" max="360" step="1" value="0" />
-                            360
-                        </div>
-                        <div>
-                            phi 0<input id="phiSlider" type="range"
-                            min="0" max="360" step="1" value="0" />
-                            360
-                        </div>
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Camera Settings</label>
+                     </div>
+                     <div style="text-align: center; margin-top: 5px;">
+                        <input type="radio" id="orthoRadioButton" name="selectedCam">Orthographic</input>
+                        <input type="radio" id="perspectiveRadioButton" name="selectedCam" checked>Perspective</input>
                     </div>
                 </div>
                 <hr>
-                <div>
-                    <label>Orthographic Settings</label>
+                <div class="setting">
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Orthographic Settings</label>
+                    </div>  
                     <div>
                         <div>
+                            radius 1<input id="radiusSliderID" type="range" min="1" max="100" step="0.1" value="1" name="orthoSettings"/>100
+                            <label id="radiusSliderLabel" class="sliderLabel">1</label>
+                        </div>
+                        <div>
+                            theta 0<input id="thetaSlider" type="range" min="0" max="360" step="1" value="0" name="orthoSettings"/> 360
+                            <label id="thetaSliderLabel" class="sliderLabel">0</label>
+                        </div>
+                        <div>
+                            phi 0<input id="phiSlider" type="range" min="0" max="360" step="1" value="0" name="orthoSettings"/> 360
+                            <label id="phiSliderLabel" class="sliderLabel">0</label>
+                        </div>
+                        <div>
                             depth 1<input id="depthSlider" type="range" min="1" max="100" step="1" value="15" name="orthoSettings"/> 100
+                            <label id="depthSliderLabel" class="sliderLabel">15</label>
                         </div>
                         <div>
                             height 1<input id="heightSlider" type="range" min="1" max="100" step="1" value="15" name="orthoSettings"/> 100
+                            <label id="heightSliderLabel" class="sliderLabel">15</label>
                         </div>
                         <div>
                             width 1<input id="widthSlider" type="range" min="1" max="100" step="1" value="15" name="orthoSettings"/> 100
+                            <label id="widthSliderLabel" class="sliderLabel">15</label>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div>
-                    <label>Perspective Settings</label>
+                <div class="setting">
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Perspective Settings</label>
+                    </div>
                     <div>
                         <div>
-                            zNear 0.1<input id="zNearSlider" type="range"
-                            min="0.1" max="100" step="0.1" value="0.3" name="perspectiveSettings"/> 100
+                            zNear 0.1<input id="zNearSlider" type="range" min="0.1" max="100" step="0.1" value="0.3" name="perspectiveSettings"/> 100
+                            <label id="zNearSlideLabel" class="sliderLabel">0.3</label>
                         </div>
                         <div>
                             zFar 1<input id="zFarSlider" type="range" min="1" max="100" step="1" value="15" name="perspectiveSettings"/> 100
+                            <label id="zFarSliderLabel" class="sliderLabel">15</label>
                         </div>
                         <div>
                             fov 10<input id="fovSlider" type="range" min="10" max="120" step="1" value="60" name="perspectiveSettings"/> 120
+                            <label id="fovSliderLabel" class="sliderLabel">60</label>
                         </div>
                         <div>
                             aspect 0.5<input id="aspectSlider" type="range" min="0.5" max="2" step="0.1" value="1" name="perspectiveSettings"/> 2
+                            <label id="aspectSliderLabel" class="sliderLabel">1</label>
                         </div>
                     </div>
                 </div>
-                <h2> Camera Transform</h2>
+                <hr style="width:100%;text-align:left;margin-left:0;">
+                <div style="text-align: center; margin-bottom: 5px;">
+                    <label> Camera Transform</label>
+                </div>
                 <div>
-                    <hr style="width:100%;text-align:left;margin-left:0;">
                     <div>
                         <h4 class="camTransformComponent">Position:</h4>
                         <div class="camTransformComponent">
@@ -174,7 +204,6 @@
                             Z: <input class="camTransformInput" type="text" id="posZ" value="-" placeholder="0">
                         </div>
                     </div>
-                    <hr style="width:100%;text-align:left;margin-left:0;">
                     <div>
                         <h4 class="camTransformComponent">Rotation:</h4>
                         <div class="camTransformComponent">
@@ -187,13 +216,15 @@
                             Z: <input class="camTransformInput" type="text" id="rotZ" value="-" placeholder="0">
                         </div>
                     </div>
-                    <hr style="width:100%;text-align:left;margin-left:0;">
+                </div>
             </div>
         </div>
 
-        <canvas id="gl-canvas" width="1024"" height="1024">
-            Oops ... your browser doesn't support the HTML5 canvas element
-        </canvas>
+        <div>
+            <canvas id="gl-canvas" width="1024"" height="1024">
+                Oops ... your browser doesn't support the HTML5 canvas element
+            </canvas>
+        </div>
 
         <div class="transform">
             <div>
@@ -246,6 +277,79 @@
                     add camera controls, animations options below here
                 </div>
             </div>
-    </div>
+        </div>
+
+
+        <script id = "sliderUIAdjusters">
+            var slider = document.getElementById( "radiusSliderID");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "radiusSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "thetaSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "thetaSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "phiSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "phiSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "depthSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "depthSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "heightSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "heightSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "widthSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "widthSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "zNearSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "zNearSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "zFarSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "zFarSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "fovSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "fovSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "aspectSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "aspectSliderLabel").innerHTML = sliderValue;
+            }, false);
+        </script>
     </body>
 </html>
