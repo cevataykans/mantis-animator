@@ -115,82 +115,8 @@ window.onload = function init() {
 
     //********  UI  END *********//
 
-    render();
+    startRender(60);
 }
-
-function lockChangeAlert() {
-    if (document.pointerLockElement === canvas ||
-        document.mozPointerLockElement === canvas) {
-      console.log('The pointer lock status is now locked');
-      document.addEventListener("mousemove", updateCameraAngle, false);
-    } else {
-      console.log('The pointer lock status is now unlocked');
-      document.removeEventListener("mousemove", updateCameraAngle, false);
-    }
-  }
-
-function buildModelUI( curID, parentID)
-{
-    if ( curID == null) return;
-
-    buildUIElement( curID, parentID);
-
-    if (figure[ curID].child != null)
-    {
-        buildModelUI( figure[ curID].child, curID); 
-    }
-    if (figure[ curID].sibling != null) 
-    {
-        buildModelUI( figure[ curID].sibling, parentID);
-    }
-}
-
-function buildUIElement( curID, parentID)
-{
-    var parentNode = document.getElementById( "menu" + parentID);
-        if ( parentNode == undefined)
-        {
-            parentNode = document.createElement("UL");
-            parentNode.id = "menu" + parentID;
-
-            let childNode = document.getElementById( "child" + parentID);
-            childNode.appendChild( parentNode);
-        }
-
-        var node = document.createElement("LI");
-        node.id = "child" + curID;
-
-        var nodeButton = document.createElement( "button");
-        nodeButton.id = "button" + curID;
-        nodeButton.value = curID; // hold the value so that when button click, 
-                                  // get corresponding name, 
-                                  // than get the transform from the dictionary, than display!
-        nodeButton.onclick = handleModelPieceClick;
-        node.appendChild( nodeButton);
-
-        var textnode = document.createTextNode( modelIDNames[ curID].toUpperCase() );
-        nodeButton.appendChild( textnode);
-
-        parentNode.appendChild( node);
-};
-
-var transformUI = [
-    [],
-    [],
-    []
-];
-function configureTransformUI()
-{
-    let inputList = document.getElementsByClassName( "transformInput");
-    for ( let i = 0; i < 3; i++)
-    {
-        for ( let j = 0; j < 3; j++)
-        {
-            transformUI[i].push( inputList[ i * 3 + j]);
-            transformUI[i][ j].oninput = changeTransformMatrix;
-        }
-    }
-};
 
 function changeTransformMatrix(event)
 {
@@ -240,8 +166,53 @@ function handleModelPieceClick( event)
     }
 };
 
+var fps, fpsInterval, startTime, now, then, elapsed;
+function startRender(fpsCount)
+{
+    fpsInterval = 1000 / fpsCount;
+    then = Date.now();
+    startTime = then;
+    render();
+};
+
 var render = function() {
 
+        requestAnimFrame(render);
+
+        now = Date.now();
+        elapsed = now - then;
+
+        if (elapsed > fpsInterval) {
+
+            // Get ready for next frame by setting then=now, but also adjust for your
+            // specified fpsInterval not being a multiple of RAF's interval (16.7ms)
+            then = now - (elapsed % fpsInterval);
+    
+            // Put your drawing code here
+            gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
+
+            if ( isCameraOrtho)
+            {
+                eye = vec3( camRadius * Math.sin( camPhi), camRadius * Math.sin( camTheta), camRadius * Math.cos( camPhi));
+                camModelViewMatrix = lookAt(eye, camAt, camUp);
+                projectionMatrix = ortho( camLeft, camRight, camBottom, camYTop, camNearOrtho, camFarOrtho);
+            }
+            else
+            {
+                eye = cameraTransform[ "pos"];
+                let lookDirection = getLookDirection( 100, 2);
+                lookDirection = add( eye, lookDirection);
+                camModelViewMatrix = lookAt(eye, lookDirection, vec3( realCamOrientation[1]));
+                projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
+            }
+
+            gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
+            gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
+
+            traverse(bodyId);
+            moveCamera();
+        }
+        /*
         gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
 
         if ( isCameraOrtho)
@@ -262,6 +233,6 @@ var render = function() {
         gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
         gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
 
-        traverse(bodyId);
-        requestAnimFrame(render);
+        traverse(bodyId);*/
+        //requestAnimFrame(render);
 };

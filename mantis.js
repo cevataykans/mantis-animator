@@ -168,7 +168,7 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
      { //"left Wing",
-        "pos": [ 0.5*bodyProportions[0] - wingProportions[0], 0.5*bodyProportions[1] - 0.5*wingProportions[1], 0.38*bodyProportions[2] + wingProportions[2]],
+        "pos": [ -(0.5*bodyProportions[0] - wingProportions[0]), 0.5*bodyProportions[1] - 0.5*wingProportions[1], 0.38*bodyProportions[2] + wingProportions[2]],
         "rot": [ 90, 0, 0],
         "scale": [ 1, 1, 1]
      },
