@@ -118,7 +118,54 @@ function setupCameraSelection()
         }
     }
     lockCameraSettings( false, true);
-}
+};
+
+function moveCamera()
+{
+    if ( keyDowns[ "a"])
+    {
+        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 0));
+        updateCameraTransformUI();
+    }
+    else if ( keyDowns[ "d"])
+    {
+        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 0));
+        updateCameraTransformUI();
+    }
+
+    if ( keyDowns[ "w"])
+    {
+        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 2));
+        updateCameraTransformUI();
+    }
+    else if ( keyDowns[ "s"])
+    {
+        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 2));
+        updateCameraTransformUI();
+    }
+
+    if ( keyDowns[ " "])
+    {
+        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(1.0, 1));
+        updateCameraTransformUI();
+    }
+    else if ( keyDowns[ "Alt"])
+    {
+        cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-1.0, 1));
+        updateCameraTransformUI();
+    }
+};
+
+function lockChangeAlert() {
+    if (document.pointerLockElement === canvas ||
+        document.mozPointerLockElement === canvas) {
+      console.log('The pointer lock status is now locked');
+      document.addEventListener("mousemove", updateCameraAngle, false);
+    } else {
+      console.log('The pointer lock status is now unlocked');
+      document.removeEventListener("mousemove", updateCameraAngle, false);
+    }
+  };
 
 function updateCameraAngle(e)
 {
@@ -128,7 +175,7 @@ function updateCameraAngle(e)
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 0], 1, 0, 0), cameraOrientation);
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 1], 0, 1, 0), realCamOrientation);
     realCamOrientation = mult( rotate(cameraTransform[ "rot"][ 2], 0, 0, 1), realCamOrientation);
-}
+};
 
 function lockCameraSettings( setOrtho, setPerspective)
 {
@@ -141,13 +188,13 @@ function lockCameraSettings( setOrtho, setPerspective)
     {
         orthoSettings[ j].disabled = setOrtho;
     }
-}
+};
 
 function setupCameraController()
 {
     document.addEventListener( "keydown", (event) => {
         keyDowns[ event.key] = true;
-        if ( keyDowns[ "a"])
+        /*if ( keyDowns[ "a"])
         {
             cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(2.5, 0));
             updateCameraTransformUI();
@@ -178,7 +225,7 @@ function setupCameraController()
         {
             cameraTransform[ "pos"] = add( cameraTransform[ "pos"], getLookDirection(-2.5, 1));
             updateCameraTransformUI();
-        }
+        }*/
     }, false);
 
     document.addEventListener( "keyup", (event) => {
@@ -194,7 +241,7 @@ function getLookDirection( distance, axis)
         normalizedDirection[ i] *= distance;
     }
     return normalizedDirection;
-}
+};
 
 function setupCameraTransformUI()
 {
@@ -223,7 +270,7 @@ function updateCameraTransformUI()
             cameraTFUIElements[ i][j].value = (cameraTransform[ transformKeys[ i]][ j] % 360);
         }
     }
-}
+};
 
 function updateCameraTransformLogic(event)
 {
