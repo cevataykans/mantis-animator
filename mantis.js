@@ -342,9 +342,9 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(bodyProportions[0], bodyProportions[1], bodyProportions[2]));
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( cyclinderPoints, cyclinderColors);
-     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
-     //for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     prepareData( pointsArray, colorsArray);
+
+     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
  
  function neck() {
