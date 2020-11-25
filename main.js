@@ -196,7 +196,8 @@ function changeTransformMatrix(event)
 {
     if ( previousButton !== null)
     {
-        let num = parseInt(event.target.value);
+        let num = parseFloat(event.target.value);
+        console.log(num);
         if ( !Number.isNaN( num) )
         {
             // copy values from transformUI that holds inputs that 
@@ -207,10 +208,10 @@ function changeTransformMatrix(event)
             {
                 for ( let j = 0; j < 3; j++)
                 {
-                    modelTransform[ transformKeys[ i]][ j] = parseInt( transformUI[ i][ j].value);
+                    modelTransform[ transformKeys[ i]][ j] = parseFloat( transformUI[ i][ j].value);
                 }
             }
-            initNodes( parseInt( previousButton.value)); // do not change!
+            initNodes( parseFloat( previousButton.value)); // do not change!
         }
     }
 }
