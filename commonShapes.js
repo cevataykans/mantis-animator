@@ -10,7 +10,7 @@ var vertices = [
     vec4( -0.5,  0.5, -0.5, 1.0 ),
     vec4( 0.5,  0.5, -0.5, 1.0 ),
     vec4( 0.5, -0.5, -0.5, 1.0 )
-]; // CAN BE MOVED TO COMMON SHAPES
+]; 
 
 var vertexColors = [
     [ 0.0, 0.0, 0.0, 1.0 ],  // black
@@ -21,18 +21,16 @@ var vertexColors = [
     [ 1.0, 0.0, 1.0, 1.0 ],  // magenta
     [ 0.0, 1.0, 1.0, 1.0 ],  // cyan
     [ 1.0, 1.0, 1.0, 1.0 ]   // white
-]; // CAN BE MOVED TO COMMON SHAPES
+];
 
 
 //*******************  Ellipsoid *******************//
 
-function findSpherePoints( xRadius, yRadius, zRadius, points)
+function findSpherePoints( xRadius, yRadius, zRadius, points, normals)
 {
     var spherePointIndices = [];
 
     var x, y, z, xyAngle;
-    var nx, ny, nz;
-    //var inverseLength = 1 / radius;
 
     var sectorStep = 2 * Math.PI / sectorCount;
     var stackStep = Math.PI / stackCount;
@@ -55,10 +53,10 @@ function findSpherePoints( xRadius, yRadius, zRadius, points)
             spherePointIndices.push( vec4( x, y, z, 1) );
         }
     }
-    findSphereTriangles( spherePointIndices, points);
+    findSphereTriangles( spherePointIndices, points, normals);
 }
 
-function findSphereTriangles( spherePointIndices, points)
+function findSphereTriangles( spherePointIndices, points, normals)
 {
     let upper, lower;
     for ( let i = 0; i < stackCount; i++)
@@ -72,10 +70,19 @@ function findSphereTriangles( spherePointIndices, points)
             {
                 // Push real vertices
                 points.push( spherePointIndices[ upper] );
-                points.push( spherePointIndices[ lower]) ;
-                points.push( spherePointIndices[ upper + 1] );
+                points.push( spherePointIndices[ upper + 1]) ;
+                points.push( spherePointIndices[ lower] );
                 
                 // push normals!
+                var upArrow = subtract( spherePointIndices[ upper + 1], spherePointIndices[ upper]);
+                var leftArrow = subtract( spherePointIndices[ lower], spherePointIndices[ upper]);
+                var normalToPush = normalize( cross( upArrow, leftArrow));
+                normalToPush = vec4( normalToPush);
+                normalToPush[ 3] = 0.0;
+
+                normals.push( normalToPush);
+                normals.push( normalToPush);
+                normals.push( normalToPush);
 
                 // push texture!!
             }
@@ -83,10 +90,19 @@ function findSphereTriangles( spherePointIndices, points)
             if ( i != (stackCount - 1))
             {
                 points.push( spherePointIndices[ upper + 1]);
-                points.push( spherePointIndices[ lower]);
                 points.push( spherePointIndices[ lower + 1]);
+                points.push( spherePointIndices[ lower]);
 
                 // push normals!
+                var upArrow = subtract( spherePointIndices[ upper + 1], spherePointIndices[ lower]);
+                var leftArrow = subtract( spherePointIndices[ lower + 1], spherePointIndices[ lower]);
+                var normalToPush = normalize( cross( upArrow, leftArrow));
+                normalToPush = vec4( normalToPush);
+                normalToPush[ 3] = 0.0;
+
+                normals.push( normalToPush);
+                normals.push( normalToPush);
+                normals.push( normalToPush);
 
                 // push texture!!
             }
@@ -113,12 +129,6 @@ function findCyclinderPoints( radius, height, points)
 
         // Push points
         cyclinderPointIndices.push( vec4( x, y, -height / 2, 1) );
-
-        // Push colors
-
-        // Push normals
-
-        // Push textures
     }
 
     // Upper circle
@@ -127,12 +137,6 @@ function findCyclinderPoints( radius, height, points)
         // push points
         var temp = cyclinderPointIndices[ i];
         cyclinderPointIndices.push( vec4( temp[ 0], temp[ 1], temp[ 2] + height, 1) );
-
-        // Push colors
-
-        // Push normals
-
-        // Push textures
     }
     findCyclinderTriangles( cyclinderPointIndices, points);
 }
@@ -160,6 +164,12 @@ function findCyclinderTriangles( cyclinderPointIndices, points)
         points.push( cyclinderPointIndices[ i + 1 + upper] );
         points.push( cyclinderPointIndices[ i + upper]);
         points.push( vec4( 0, 0, -cyclinderPointIndices[ i][ 2], 1));
+
+        // Push colors
+
+        // Push normals
+
+        // Push textures
     }
 }
 

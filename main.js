@@ -12,6 +12,7 @@ var instanceMatrix;
 var camModelViewLoc;
 var modelViewMatrixLoc;
 var projectionMatrixLoc;
+var normalMatrixLoc;
 
 var colorI = 0;
 
@@ -33,12 +34,15 @@ var modelViewLoc;
 
 var pointsArray = [];
 var colorsArray = [];
+var cubeNormals = [];
 
 var spherePoints = [];
 var sphereColors = [];
+var sphereNormals = [];
 
 var cyclinderPoints = [];
 var cyclinderColors = [];
+var cyclinderNormals = [];
 
 //-------------------------------------------
 
@@ -81,9 +85,9 @@ window.onload = function init() {
     //********  POINT GENERATION  *********//
     cube();
     changeCubeColor(colorsArray);
-    findSpherePoints( 0.5, 0.5, 0.5, spherePoints);
+    findSpherePoints( 0.5, 0.5, 0.5, spherePoints, sphereNormals);
     changeSphereColor(sphereColors);
-    findCyclinderPoints(0.5, 0.5, cyclinderPoints);
+    findCyclinderPoints(0.5, 0.5, cyclinderPoints, cyclinderNormals);
     changeCyclinderColor(cyclinderColors);
     //********  POINT GENERATION END *********//
     
