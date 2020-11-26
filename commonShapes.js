@@ -26,7 +26,7 @@ var vertexColors = [
 
 //*******************  Ellipsoid *******************//
 
-function findSpherePoints( xRadius, yRadius, zRadius, points, colors)
+function findSpherePoints( xRadius, yRadius, zRadius, points)
 {
     var spherePointIndices = [];
 
@@ -55,10 +55,10 @@ function findSpherePoints( xRadius, yRadius, zRadius, points, colors)
             spherePointIndices.push( vec4( x, y, z, 1) );
         }
     }
-    findSphereTriangles( spherePointIndices, points, colors);
+    findSphereTriangles( spherePointIndices, points);
 }
 
-function findSphereTriangles( spherePointIndices, points, colors)
+function findSphereTriangles( spherePointIndices, points)
 {
     let upper, lower;
     for ( let i = 0; i < stackCount; i++)
@@ -76,11 +76,7 @@ function findSphereTriangles( spherePointIndices, points, colors)
                 points.push( spherePointIndices[ upper + 1] );
                 
                 // push normals!
-            
-                // push colors?
-                colors.push( vertexColors[ 3]);
-                colors.push( vertexColors[ 3]);
-                colors.push( vertexColors[ 3]);
+
                 // push texture!!
             }
 
@@ -91,11 +87,7 @@ function findSphereTriangles( spherePointIndices, points, colors)
                 points.push( spherePointIndices[ lower + 1]);
 
                 // push normals!
-            
-                // push colors?
-                colors.push( vertexColors[ 3]);
-                colors.push( vertexColors[ 3]);
-                colors.push( vertexColors[ 3]);
+
                 // push texture!!
             }
         }
@@ -104,7 +96,7 @@ function findSphereTriangles( spherePointIndices, points, colors)
 
 //*******************  Cyclinder *******************//
 
-function findCyclinderPoints( radius, height, points, colors)
+function findCyclinderPoints( radius, height, points)
 {
     var cyclinderPointIndices = [];
 
@@ -142,10 +134,10 @@ function findCyclinderPoints( radius, height, points, colors)
 
         // Push textures
     }
-    findCyclinderTriangles( cyclinderPointIndices, points, colors);
+    findCyclinderTriangles( cyclinderPointIndices, points);
 }
 
-function findCyclinderTriangles( cyclinderPointIndices, points, colors)
+function findCyclinderTriangles( cyclinderPointIndices, points)
 {
     let upper = sectorCount + 1;
     for ( let i = 0; i < sectorCount; i++)
@@ -155,35 +147,19 @@ function findCyclinderTriangles( cyclinderPointIndices, points, colors)
         points.push( cyclinderPointIndices[ i + 1]);
         points.push( cyclinderPointIndices[ i + 1 + upper]);
 
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
-
         points.push( cyclinderPointIndices[ i]);
         points.push( cyclinderPointIndices[ i + 1 + upper]);
         points.push( cyclinderPointIndices[ i + upper]);
-
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
 
         // lower circle
         points.push( cyclinderPointIndices[ i] );
         points.push( cyclinderPointIndices[ i + 1]);
         points.push( vec4( 0, 0, cyclinderPointIndices[ i][ 2], 1));
 
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
-
         // upper circle
         points.push( cyclinderPointIndices[ i + 1 + upper] );
         points.push( cyclinderPointIndices[ i + upper]);
         points.push( vec4( 0, 0, -cyclinderPointIndices[ i][ 2], 1));
-
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
-        colors.push( vertexColors[ 3]);
     }
 }
 
@@ -194,11 +170,6 @@ function quad(a, b, c, d) {
     pointsArray.push(vertices[b]); 
     pointsArray.push(vertices[c]);     
     pointsArray.push(vertices[d]);    
-    for (p = 0; p < 4; p++)
-    {
-        colorsArray.push(vertexColors[colorI]);
-    }
-    colorI = (++colorI) % 8;
 }
 
 
@@ -210,4 +181,44 @@ function cube()
    quad( 6, 5, 1, 2 );
    quad( 4, 5, 6, 7 );
    quad( 5, 4, 0, 1 );
+}
+
+function changeSphereColor(colorArray, rgbColor = [0, 1, 0, 1])
+{
+    sphereColors = [];
+    for ( let i = 0; i < stackCount; i++)
+    {
+        for ( let j = 0; j < sectorCount; j++)
+        {
+            if ( i != 0)
+            {
+                sphereColors.push(rgbColor);
+                sphereColors.push(rgbColor);
+                sphereColors.push(rgbColor);
+            }
+
+            if ( i != (stackCount - 1))
+            {
+                sphereColors.push(rgbColor);
+                sphereColors.push(rgbColor);
+                sphereColors.push(rgbColor);
+            }
+        }
+    }       
+}
+
+function changeCyclinderColor(colorArray, rgbColor = [0, 1, 0, 1])
+{
+    for (i = 0; i < sectorCount*12; i++)
+    {
+        colorArray[i] = rgbColor;
+    }
+}
+
+function changeCubeColor(colorArray, rgbColor = [0, 1, 0, 1]) 
+{
+    for (p = 0; p < 24; p++)
+    {
+        colorArray[i] = rgbColor;
+    }
 }

@@ -49,16 +49,16 @@ var modelIDNames = [
 ] 
 
 // Proportions are: 0-Width, 1-Height, 2-Length
-var bodyProportions = [2.0, 2.0, 8.0];
+var bodyProportions = [2.0, 2.0, 12.0];
 var neckProportions = [1.0, 8.0, 1.0];
-var headProportions = [1, 1.5, 1];
+var headProportions = [1.5, 2.5, 1.5];
 var upperClawProportions = [0.5, 3.0, 0.5];
 var middleClawProportions = [0.5, 3.0, 0.5];
 var lowerClawProportions = [0.5, 1.5, 0.5];
 var upperLegProportions = [0.5, 1, 0.5];
 var middleLegProportions = [0.5, 3.5, 0.5];
 var lowerLegProportions = [0.5, 3.5, 0.5];
-var wingProportions = [2.0, 8.0, 0.01];
+var wingProportions = [2.0, 12.0, 0.01];
 
 // Model View Transforms
 var transforms = [
@@ -68,17 +68,17 @@ var transforms = [
        "scale": [ 1, 1, 1]
     },
     { //"neck",
-        "pos": [ 0.0, 0.5*bodyProportions[1] + 0.5*neckProportions[1] , 0.5*bodyProportions[2] - 0.5*neckProportions[2]],
+        "pos": [ 0.0, 0.05*bodyProportions[1] + 0.5*neckProportions[1] , 0.4*bodyProportions[2] + 0.6*neckProportions[2]],
         "rot": [ 45, 0, 0],
         "scale": [ 1, 1, 1]
      },
      { //"head",
-        "pos": [ 0.0, 0.5*neckProportions[1] + 0.8*headProportions[1], 0.3*neckProportions[2] - 0.2*headProportions[2]],
+        "pos": [ 0.0, 0.4*neckProportions[1] + headProportions[1], 0.3*neckProportions[2] - 0.2*headProportions[2]],
         "rot": [ 45, 0, 0],
         "scale": [ 1, 1, 1]
      },
      { //"left Upper Claw",
-        "pos": [ neckProportions[0] - upperClawProportions[0] * 0.5, 0.2*neckProportions[1] + 0.5*upperClawProportions[1], 0.5*neckProportions[2] - upperClawProportions[2]],
+        "pos": [ 0.1*neckProportions[0] - upperClawProportions[0], 0.2*neckProportions[1] + 0.5*upperClawProportions[1], 0.5*neckProportions[2] - upperClawProportions[2]],
         "rot": [ 90, 0, 0],
         "scale": [ 1, 1, 1]
      },
@@ -88,12 +88,12 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
      { //"left Lower Claw",
-        "pos": [ 0.0, 0.5*middleClawProportions[1] + 0.5*lowerClawProportions[1], 0.5*middleClawProportions[2] + 0.5*lowerClawProportions[2]],
+        "pos": [ 0.0, 0.5*middleClawProportions[1] + 0.5*lowerClawProportions[1], 0],
         "rot": [ 140, 0, 0],
         "scale": [ 1, 1, 1]
      },
      { //"right Upper Claw",
-        "pos": [ -( neckProportions[0] - upperClawProportions[0] * 0.5), 0.2*neckProportions[1] + 0.5*upperClawProportions[1], 0.5*neckProportions[2] - upperClawProportions[2]],
+        "pos": [ -( 0.1*neckProportions[0] - upperClawProportions[0]), 0.2*neckProportions[1] + 0.5*upperClawProportions[1], 0.5*neckProportions[2] - upperClawProportions[2]],
         "rot": [ 90, 0, 0],
         "scale": [ 1, 1, 1]
      },
@@ -103,12 +103,12 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
      { //"right Lower Claw",
-        "pos": [ 0.0, 0.5*middleClawProportions[1] + 0.5*lowerClawProportions[1], 0.5*middleClawProportions[2] + 0.5*lowerClawProportions[2]],
+        "pos": [ 0.0, 0.5*middleClawProportions[1] + 0.5*lowerClawProportions[1], 0],
         "rot": [ 140, 0, 0],
         "scale": [ 1, 1, 1]
      },
      { //"front Upper Left Leg",
-        "pos": [ 0.7*bodyProportions[0] - upperLegProportions[0] , 0.15*bodyProportions[1] - 1.5*upperLegProportions[1], 0.3*bodyProportions[2] + 0.5*upperLegProportions[2]],
+        "pos": [ 0.5*bodyProportions[0] - upperLegProportions[0] , 0.25*bodyProportions[1] - 1.5*upperLegProportions[1], 0.3*bodyProportions[2] + 0.5*upperLegProportions[2]],
         "rot": [ 0, 0, 45],
         "scale": [ 1, 1, 1]
      },
@@ -123,7 +123,7 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
      { //"front Upper Right Leg",
-        "pos": [ -0.7*bodyProportions[0] + upperLegProportions[0] , 0.15*bodyProportions[1] - 1.5*upperLegProportions[1], 0.3*bodyProportions[2] + 0.5*upperLegProportions[2]], 
+        "pos": [ -0.5*bodyProportions[0] + upperLegProportions[0] , 0.25*bodyProportions[1] - 1.5*upperLegProportions[1], 0.3*bodyProportions[2] + 0.5*upperLegProportions[2]], 
         "rot": [ 0, 0, -45],
         "scale": [ 1, 1, 1]
      },
@@ -138,7 +138,7 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
      { //"back Upper Left Leg",
-        "pos": [ 0.7*bodyProportions[0] - upperLegProportions[0] , 0.15*bodyProportions[1] - 1.5*upperLegProportions[1], 0.1*bodyProportions[2] + 0.9*upperLegProportions[2]],
+        "pos": [ 0.5*bodyProportions[0] * upperLegProportions[0] , 0.25*bodyProportions[1] - 1.5*upperLegProportions[1], 0.1*bodyProportions[2] + 0.9*upperLegProportions[2]],
         "rot": [ 0, 0, 45],
         "scale": [ 1, 1, 1]
      },
@@ -153,7 +153,7 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
     { //"back Upper Right Leg",
-        "pos": [ -0.7*bodyProportions[0] + upperLegProportions[0] , 0.15*bodyProportions[1] - 1.5*upperLegProportions[1], 0.1*bodyProportions[2] + 0.9*upperLegProportions[2]], 
+        "pos": [ -0.5*bodyProportions[0] + upperLegProportions[0] , 0.25*bodyProportions[1] - 1.5*upperLegProportions[1], 0.1*bodyProportions[2] + 0.9*upperLegProportions[2]], 
         "rot": [ 0, 0, -45],
         "scale": [ 1, 1, 1]
      },
@@ -168,16 +168,16 @@ var transforms = [
         "scale": [ 1, 1, 1]
      },
      { //"left Wing",
-        "pos": [ -(0.5*bodyProportions[0] - wingProportions[0]), 0.5*bodyProportions[1] - 0.5*wingProportions[1], 0.38*bodyProportions[2] + wingProportions[2]],
-        "rot": [ 90, 0, 0],
+        "pos": [ -(0.5*bodyProportions[0] - 0.65*wingProportions[0]), bodyProportions[1] - 0.635*wingProportions[1], 0.46*bodyProportions[2] + wingProportions[2]],
+        "rot": [ 104, 0, 7],
         "scale": [ 1, 1, 1]
      },
      { // "right Wing"
-        "pos": [ 0.5*bodyProportions[0] - wingProportions[0], 0.5*bodyProportions[1] - 0.5*wingProportions[1], 0.38*bodyProportions[2] + wingProportions[2]],
-        "rot": [ 90, 0, 0],
+        "pos": [ 0.5*bodyProportions[0] - 0.65*wingProportions[0], bodyProportions[1] - 0.635*wingProportions[1], 0.46*bodyProportions[2] + wingProportions[2]],
+        "rot": [ 104, 0, -7],
         "scale": [ 1, 1, 1]
      }
-]; //************************** SOME USE I THINK VALUES THEY SHOULD NOT USE -> FOR EXAMPLE BACK RIGHT LEG USES THETA OF BACKLEFTLEGID AND THERE ARE MANY MORE EXAMPLES LIKE THIS! */
+];
 
 function createNode(transform, render, sibling, child){
     var node = {
@@ -210,32 +210,32 @@ function initNodes(Id) {
         break;
     
     case rightUpperClawId:
-        m = getModelViewMatrix( curTF, vec3(-0.5*neckProportions[0], 0.5*upperClawProportions[1], 0.5*upperClawProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, 0.5*upperClawProportions[1], 0));
         figure[rightUpperClawId] = createNode( m, upperClaw, leftUpperClawId, rightMiddleClawId );
         break;
 
     case rightMiddleClawId:
-        m = getModelViewMatrix( curTF, vec3(0.5*middleClawProportions[0], 0.5*middleClawProportions[1], 0.5*middleClawProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, 0.5*middleClawProportions[1], 0));
         figure[rightMiddleClawId] = createNode( m, middleClaw, null, rightLowerClawId );
         break;
 
     case rightLowerClawId:
-        m = getModelViewMatrix( curTF, vec3(0.5*lowerClawProportions[0], 0.5*lowerClawProportions[1], 0.5*lowerClawProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, 0.5*lowerClawProportions[1], 0));
         figure[rightLowerClawId] = createNode( m, lowerClaw, null, null );
         break;
 
     case leftUpperClawId:
-        m = getModelViewMatrix( curTF, vec3(0.5*upperClawProportions[0], 0.5*upperClawProportions[1], 0.5*upperClawProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, 0.5*upperClawProportions[1], 0));
         figure[leftUpperClawId] = createNode( m, upperClaw, null, leftMiddleClawId );
         break;
 
     case leftMiddleClawId:
-        m = getModelViewMatrix( curTF, vec3(0.5*middleClawProportions[0], 0.5*middleClawProportions[1], 0.5*middleClawProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, 0.5*middleClawProportions[1], 0));
         figure[leftMiddleClawId] = createNode( m, middleClaw, null, leftLowerClawId );
         break;
 
     case leftLowerClawId:
-        m = getModelViewMatrix( curTF, vec3(0.5*lowerClawProportions[0], 0.5*lowerClawProportions[1], 0.5*lowerClawProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, 0.5*lowerClawProportions[1], 0));
         figure[leftLowerClawId] = createNode( m, lowerClaw, null, null );
         break;
     
@@ -300,12 +300,12 @@ function initNodes(Id) {
         break;
 
     case leftWingId:
-        m = getModelViewMatrix( curTF, vec3(0.5*wingProportions[0], -0.5*wingProportions[1], -0.5*wingProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, -0.5*wingProportions[1], 0));
         figure[leftWingId] = createNode( m, wing, rightWingId, null );
         break;
 
     case rightWingId:
-        m = getModelViewMatrix( curTF, vec3(-0.5*wingProportions[0], -0.5*wingProportions[1], -0.5*wingProportions[2]));
+        m = getModelViewMatrix( curTF, vec3(0, -0.5*wingProportions[1], 0));
         figure[rightWingId] = createNode( m, wing, null, null );
         break;
     
@@ -342,9 +342,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(bodyProportions[0], bodyProportions[1], bodyProportions[2]));
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeSphereColor(sphereColors, [0.047, 0.341, 0.019, 1]);
+     prepareData( spherePoints, sphereColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
  
  function neck() {
@@ -353,9 +354,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(neckProportions[0], neckProportions[1], neckProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
+     prepareData( cyclinderPoints, cyclinderColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
 
  function head() {
@@ -364,6 +366,7 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(headProportions[0], headProportions[1], headProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
      
+     changeSphereColor(sphereColors, [0, 1, 0, 1]);
      prepareData( spherePoints, sphereColors);
 
      gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
@@ -375,9 +378,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(upperClawProportions[0], upperClawProportions[1], upperClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeSphereColor(sphereColors, [0, 1, 0, 1]);
+     prepareData( cyclinderPoints, cyclinderColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
  
  function middleClaw() {
@@ -386,9 +390,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(middleClawProportions[0], middleClawProportions[1], middleClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeSphereColor(sphereColors, [0, 1, 0, 1]);
+     prepareData( cyclinderPoints, cyclinderColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
  
  function lowerClaw() {
@@ -397,9 +402,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(lowerClawProportions[0], lowerClawProportions[1], lowerClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeSphereColor(sphereColors, [0, 1, 0, 1]);
+     prepareData( spherePoints, sphereColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
  
  function  upperLeg() {
@@ -408,9 +414,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(upperLegProportions[0], upperLegProportions[1], upperLegProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeCyclinderColor(cyclinderColors, [0.113, 0.568, 0.070, 1]);
+     prepareData( cyclinderPoints, cyclinderColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
 
  function  middleLeg() {
@@ -419,9 +426,10 @@ function traverse(Id) {
     instanceMatrix = mult(instanceMatrix, scale4(middleLegProportions[0], middleLegProportions[1], middleLegProportions[2]) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-    prepareData( pointsArray, colorsArray);
+    changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
+    prepareData( cyclinderPoints, cyclinderColors);
 
-    for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+    gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
 }
 
 function  lowerLeg() {
@@ -430,9 +438,10 @@ function  lowerLeg() {
     instanceMatrix = mult(instanceMatrix, scale4(lowerLegProportions[0], lowerLegProportions[1], lowerLegProportions[2]) );
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-    prepareData( pointsArray, colorsArray);
+    changeSphereColor(sphereColors, [0, 1, 0, 1]);
+    prepareData( spherePoints, sphereColors);
 
-    for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+    gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
 }
  
  function wing() {
@@ -441,9 +450,10 @@ function  lowerLeg() {
      instanceMatrix = mult(instanceMatrix, scale4(wingProportions[0], wingProportions[1], wingProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     prepareData( pointsArray, colorsArray);
+     changeSphereColor(sphereColors, [0.074, 0.505, 0.031, 1]);
+     prepareData( spherePoints, sphereColors);
 
-     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
+     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
 
  function prepareData( pointsToSet, colorsToSet, normal = null, texture = null)

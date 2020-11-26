@@ -80,8 +80,11 @@ window.onload = function init() {
 
     //********  POINT GENERATION  *********//
     cube();
-    findSpherePoints( 1, 1, 1, spherePoints, sphereColors);
-    findCyclinderPoints(1, 1, cyclinderPoints, cyclinderColors);
+    changeCubeColor(colorsArray);
+    findSpherePoints( 0.5, 0.5, 0.5, spherePoints);
+    changeSphereColor(sphereColors);
+    findCyclinderPoints(0.5, 0.5, cyclinderPoints);
+    changeCyclinderColor(cyclinderColors);
     //********  POINT GENERATION END *********//
     
     for(i=0; i<numNodes; i++) initNodes(i);
