@@ -1,5 +1,5 @@
 var animationsFileNameInput;
-var newAnimationFileName;
+var newAnimationNameInput;
 var frameCounter;
 var animationSelector;
 var loopCheckbox;
@@ -9,7 +9,7 @@ function setupAnimationUI()
     function setupInputUIVariables()
     {
         animationsFileNameInput = document.getElementById( "animationFileNameInput");
-        newAnimationFileName = document.getElementById( "animationNameInput");
+        newAnimationNameInput = document.getElementById( "animationNameInput");
         frameCounter = document.getElementById( "fpsCounter");
         animationSelector = document.getElementById( "animSelector");
         loopCheckbox = document.getElementById( "loopCheckBox");
@@ -21,7 +21,7 @@ function setupAnimationUI()
         saveButton.addEventListener( "click", (event) => {
             
             // save the aniamtions!
-            //saveJSON( animationsFileNameInput.value, null);
+            saveJSON( animationsFileNameInput.value, animations);
 
         }, false);
 
@@ -32,6 +32,14 @@ function setupAnimationUI()
     function setupAnimationButtons()
     {
         // get buttons and add click events!
+        let startCaptureButton = document.getElementById( "startCaptureButton");
+        startCaptureButton.onclick = startCapture;
+
+        let saveFrameButton = document.getElementById( "saveFrameButton");
+        saveFrameButton.onclick = setFrame;
+
+        let finishCaptureButton = document.getElementById( "finishCaptureButton");
+        finishCaptureButton.onclick = finishCapture;
     };
 
     setupInputUIVariables();

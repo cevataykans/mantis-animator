@@ -4,13 +4,52 @@ var animations = [
 
 ];
 
+var newAnimation;
+var newFrameIndex;
 
 function startCapture()
 {
+    console.log( "Capture started!");
     isCaptureOn = true;
+    newFrameIndex = 0;
+
+    newAnimation = {};
+    newAnimation[ "name"] = newAnimationNameInput.value;
+    newAnimation[ "frames"] = [];
+    newAnimation[ "frames"].push( {});
+    //newAnimation[ "frames"][ newFrameIndex].push( {});
+    newAnimation[ "frames"][ newFrameIndex][ "frame"] = JSON.parse( JSON.stringify( transforms));
+    newFrameIndex += 1;
 };
 
-function setAniamtionToPlay( animationName, isLoop)
+function setFrame()
+{
+    if ( isCaptureOn)
+    {
+        console.log( "saving frame!");
+
+        newAnimation[ "frames"].push( {});
+        newAnimation[ "frames"][ newFrameIndex][ "frame"] = JSON.parse( JSON.stringify( transforms));
+        newAnimation[ "frames"][ newFrameIndex - 1][ "fpsCount"] = frameCounter.value;
+        newFrameIndex += 1;
+    }
+};
+
+function finishCapture()
+{
+    if ( isCaptureOn)
+    {
+        console.log( "finishing capture!");
+
+        newAnimation[ "frames"].push( {});
+        newAnimation[ "frames"][ newFrameIndex][ "frame"] = JSON.parse( JSON.stringify( transforms));
+        newAnimation[ "frames"][ newFrameIndex - 1][ "fpsCount"] = frameCounter.value;
+        animations.push( newAnimation);
+        isCaptureOn = false;
+    }
+};
+
+function setAnimationToPlay( animationName, isLoop)
 {
     loopAnimation = isLoop;
 
