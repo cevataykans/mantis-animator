@@ -189,6 +189,11 @@ var render = function() {
             // Put your drawing code here
             gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT );
 
+            if ( isAnimPlaying)
+            {
+                animateMantis();
+            }
+
             if ( isCameraOrtho)
             {
                 eye = vec3( camRadius * Math.sin( camPhi), camRadius * Math.sin( camTheta), camRadius * Math.cos( camPhi));
@@ -210,7 +215,6 @@ var render = function() {
                 }
                 projectionMatrix = perspective(camFovy, camAspect, camNearPers, camFarPers);
             }
-
             gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
             gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
 

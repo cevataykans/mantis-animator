@@ -42,12 +42,33 @@ function setupAnimationUI()
         finishCaptureButton.onclick = finishCapture;
     };
 
+    function setupAnimatorUI()
+    {
+        let startAnimButton = document.getElementById( "playAnimButton");
+        startAnimButton.onclick = playAnimation;
+
+        let stopAnimButton = document.getElementById( "stopAnimButton");
+        stopAnimButton.onclick = stopAnimButton;
+    };
+
     setupInputUIVariables();
     setupSavingSystem();
     setupAnimationButtons();
+    setupAnimatorUI();
 };
 
-function updateAnimationsUIAfterLoad()
+function updateAnimationsUIAfterLoad( loadedAnimations)
 {
+    stopAnimation();
+    animations = loadedAnimations;
 
+    while ( animationSelector.options.length) 
+    {
+        animationSelector.remove( 0);
+    }
+
+    for ( let i = 0; i < animations.length; i++)
+    {
+        animationSelector.add( new Option( animations[ i][ "name"]));
+    }
 };
