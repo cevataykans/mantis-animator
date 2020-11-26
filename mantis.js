@@ -63,7 +63,7 @@ var wingProportions = [2.0, 12.0, 0.01];
 // Model View Transforms
 var transforms = [
     { //"body",
-       "pos": [ 0.0, 0, 0.0],
+       "pos": [ 0.0, 0.0, 0.0],
        "rot": [ 0, 0, 0], 
        "scale": [ 1, 1, 1]
     },

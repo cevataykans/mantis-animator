@@ -75,9 +75,10 @@ function playAnimation()
             loopAnimation = loopCheckbox.checked;
 
             // Set the current location to where the animation was recorded!
-            transforms = animationToPlay[ 0][ "frame"];
+            transforms = JSON.parse( JSON.stringify( animationToPlay[ 0][ "frame"]));
             for ( let i = 0; i < numNodes; i++)
             {
+                console.log( "Setting!");
                 initNodes( i);
             }
 
@@ -129,11 +130,12 @@ function animateMantis()
             frameCounterToNextFrame = 0;
 
             // Set the current location to where the animation was recorded!
-            transforms = animationToPlay[ 0][ "frame"];
+            transforms = JSON.parse( JSON.stringify( animationToPlay[ 0][ "frame"]));
             for ( let i = 0; i < numNodes; i++)
             {
                 initNodes( i);
             }
+            console.log( "Looping!");
         }
         else
         {
