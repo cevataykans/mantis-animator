@@ -17,8 +17,8 @@ var normalMatrixLoc;
 var colorI = 0;
 
 
-var numNodes = 23;
-var numAngles = 69;
+var numNodes = 27;
+var numAngles = 81;
 var angle = 0;
 
 var numVertices = 24;

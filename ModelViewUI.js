@@ -6,15 +6,18 @@ var transformUI = [
 
 function buildModelUI( curID, parentID)
 {
+    console.log(curID);
     if ( curID == null) return;
 
+    if (curID < leftEyeId) {
     buildUIElement( curID, parentID);
+    }
 
-    if (figure[ curID].child != null)
+    if (curID < leftEyeId && figure[ curID].child != null)
     {
         buildModelUI( figure[ curID].child, curID); 
     }
-    if (figure[ curID].sibling != null) 
+    if (curID < leftEyeId && figure[ curID].sibling != null) 
     {
         buildModelUI( figure[ curID].sibling, parentID);
     }
@@ -23,30 +26,30 @@ function buildModelUI( curID, parentID)
 function buildUIElement( curID, parentID)
 {
     var parentNode = document.getElementById( "menu" + parentID);
-        if ( parentNode == undefined)
-        {
-            parentNode = document.createElement("UL");
-            parentNode.id = "menu" + parentID;
+    if ( parentNode == undefined)
+    {
+        parentNode = document.createElement("UL");
+        parentNode.id = "menu" + parentID;
 
-            let childNode = document.getElementById( "child" + parentID);
-            childNode.appendChild( parentNode);
-        }
+        let childNode = document.getElementById( "child" + parentID);
+        childNode.appendChild( parentNode);
+    }
 
-        var node = document.createElement("LI");
-        node.id = "child" + curID;
+    var node = document.createElement("LI");
+    node.id = "child" + curID;
 
-        var nodeButton = document.createElement( "button");
-        nodeButton.id = "button" + curID;
-        nodeButton.value = curID; // hold the value so that when button click, 
-                                  // get corresponding name, 
-                                  // than get the transform from the dictionary, than display!
-        nodeButton.onclick = handleModelPieceClick;
-        node.appendChild( nodeButton);
+    var nodeButton = document.createElement( "button");
+    nodeButton.id = "button" + curID;
+    nodeButton.value = curID; // hold the value so that when button click, 
+                                // get corresponding name, 
+                                // than get the transform from the dictionary, than display!
+    nodeButton.onclick = handleModelPieceClick;
+    node.appendChild( nodeButton);
 
-        var textnode = document.createTextNode( modelIDNames[ curID].toUpperCase() );
-        nodeButton.appendChild( textnode);
+    var textnode = document.createTextNode( modelIDNames[ curID].toUpperCase() );
+    nodeButton.appendChild( textnode);
 
-        parentNode.appendChild( node);
+    parentNode.appendChild( node);
 };
 
 function configureTransformUI()

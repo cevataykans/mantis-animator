@@ -1,3 +1,4 @@
+// Mantis Parts
 var bodyId = 0;
 var neckId = 1;
 var headId = 2;
@@ -21,6 +22,12 @@ var backRightMiddleLegId = 19;
 var backRightLowerLegId = 20;
 var leftWingId = 21;
 var rightWingId = 22;
+
+// Mantis Static Parts
+var leftEyeId = 23;
+var rightEyeId = 24;
+var leftAntennaId = 25;
+var rightAntennaId = 26;
 
 var modelIDNames = [
     "body",
@@ -59,6 +66,8 @@ var upperLegProportions = [0.5, 1, 0.5];
 var middleLegProportions = [0.5, 3.5, 0.5];
 var lowerLegProportions = [0.5, 3.5, 0.5];
 var wingProportions = [2.0, 12.0, 0.01];
+var eyeProportions = [1, 1, 1];
+var antennaProportions = [0.1, 0.1, 10];
 
 // Model View Transforms
 var transforms = [
@@ -176,7 +185,28 @@ var transforms = [
         "pos": [ 0.5*bodyProportions[0] - 0.65*wingProportions[0], bodyProportions[1] - 0.635*wingProportions[1], 0.46*bodyProportions[2] + wingProportions[2]],
         "rot": [ 104, 0, -7],
         "scale": [ 1, 1, 1]
-     }
+     },
+     // Static parts
+     { // "left eye"
+        "pos": [ headProportions[0] - eyeProportions[0], 0.0, -(0.2*headProportions[2] - 0.1*eyeProportions[2])],
+        "rot": [ 0, 0, 0],
+        "scale": [ 1, 1, 1]
+    },
+    { // "right eye"
+        "pos": [ -(headProportions[0] - eyeProportions[0]), 0.0, -(0.2*headProportions[2] - 0.1*eyeProportions[2])],
+        "rot": [ 0, 0, 0],
+        "scale": [ 1, 1, 1]
+    },
+    { // "left antenna"
+        "pos": [ headProportions[0] - 0.1*antennaProportions[0], -0.2*headProportions[1] + 0.1*antennaProportions[1], -(headProportions[2] + 0.1*antennaProportions[2])],
+        "rot": [ 0, -30, 0],
+        "scale": [ 1, 1, 1]
+    },
+    { // "right antenna"
+        "pos": [ -(headProportions[0] - 0.1*antennaProportions[0]), -0.2*headProportions[1] + 0.1*antennaProportions[1], -(headProportions[2] + 0.1*antennaProportions[2])],
+        "rot": [ 0, 30, 0],
+        "scale": [ 1, 1, 1]
+     },
 ];
 
 // Environment
@@ -216,7 +246,7 @@ function initNodes(Id) {
 
     case headId:    
         m = getModelViewMatrix( curTF, vec3(0.5*headProportions[0], 0.5*headProportions[1], 0.5*headProportions[2]));
-        figure[headId] = createNode( m, head, rightUpperClawId, null);
+        figure[headId] = createNode( m, head, rightUpperClawId, leftEyeId);
         break;
     
     case rightUpperClawId:
@@ -318,8 +348,28 @@ function initNodes(Id) {
         m = getModelViewMatrix( curTF, vec3(0, -0.5*wingProportions[1], 0));
         figure[rightWingId] = createNode( m, wing, null, null );
         break;
-    
-    }
+
+    // Static Mantis Parts
+    case leftEyeId:
+        m = getModelViewMatrix( curTF, vec3(0, -0.5*eyeProportions[1], 0));
+        figure[leftEyeId] = createNode( m, eye, rightEyeId, null );
+        break;
+
+    case rightEyeId:
+        m = getModelViewMatrix( curTF, vec3(0, -0.5*eyeProportions[1], 0));
+        figure[rightEyeId] = createNode( m, eye, leftAntennaId, null );
+        break;
+
+    case leftAntennaId:
+        m = getModelViewMatrix( curTF, vec3(0, -0.5*antennaProportions[1], 0));
+        figure[leftAntennaId] = createNode( m, antenna, rightAntennaId, null );
+        break;
+
+    case rightAntennaId:
+        m = getModelViewMatrix( curTF, vec3(0, -0.5*antennaProportions[1], 0));
+        figure[rightAntennaId] = createNode( m, antenna, null, null );
+        break;
+    }    
 }
 
 function getModelViewMatrix( curTF, rotationPoint = vec3(0, 0, 0))
@@ -388,7 +438,7 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(upperClawProportions[0], upperClawProportions[1], upperClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     changeSphereColor(sphereColors, [0, 1, 0, 1]);
+     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
      prepareData( cyclinderPoints, cyclinderColors);
 
      gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
@@ -400,7 +450,7 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(middleClawProportions[0], middleClawProportions[1], middleClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     changeSphereColor(sphereColors, [0, 1, 0, 1]);
+     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
      prepareData( cyclinderPoints, cyclinderColors);
 
      gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
@@ -465,6 +515,30 @@ function  lowerLeg() {
 
      gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
+
+ function  eye() {
+ 
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.0, 0.0) );
+    instanceMatrix = mult(instanceMatrix, scale4(eyeProportions[0], eyeProportions[1], eyeProportions[2]) );
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+    changeSphereColor(sphereColors, [0, 0, 0, 1]);
+    prepareData( spherePoints, sphereColors);   
+
+    gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
+}
+
+function  antenna() {
+ 
+    instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.0, 0.0) );
+    instanceMatrix = mult(instanceMatrix, scale4(antennaProportions[0], antennaProportions[1], antennaProportions[2]) );
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+    changeCyclinderColor(cyclinderColors, [0.317, 0.219, 0.219, 1]);
+    prepareData( cyclinderPoints, cyclinderColors);
+
+    gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
+}
 
  // Environment functiıns
  function ground() {
