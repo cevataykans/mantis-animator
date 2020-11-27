@@ -95,10 +95,7 @@ function playAnimation()
 
 function stopAnimation()
 {
-    if ( isAnimPlaying)
-    {
-        isAnimPlaying = false;
-    }
+    isAnimPlaying = false;
 };
 
 function animateMantis()

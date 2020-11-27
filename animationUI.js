@@ -48,7 +48,7 @@ function setupAnimationUI()
         startAnimButton.onclick = playAnimation;
 
         let stopAnimButton = document.getElementById( "stopAnimButton");
-        stopAnimButton.onclick = stopAnimButton;
+        stopAnimButton.onclick = stopAnimation;
     };
 
     setupInputUIVariables();
