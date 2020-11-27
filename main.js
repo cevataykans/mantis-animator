@@ -99,7 +99,7 @@ window.onload = function init() {
     setupCameraUI();
     setupAnimationUI();
 
-    // FPS
+    // FPS => official tutorial on mozilla tutorial: https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
     canvas.requestPointerLock = canvas.requestPointerLock ||
                             canvas.mozRequestPointerLock;
 
@@ -168,6 +168,7 @@ function handleModelPieceClick( event)
     }
 };
 
+// FPS logic code from: https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe
 var fps, fpsInterval, startTime, now, then, elapsed;
 function startRender(fpsCount)
 {
