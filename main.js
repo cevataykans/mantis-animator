@@ -6,7 +6,7 @@ var program;
 var projectionMatrix; 
 var modelViewMatrix;
 var camModelViewMatrix;
-
+var normalMatrix;
 var instanceMatrix;
 
 var camModelViewLoc;
@@ -81,6 +81,20 @@ window.onload = function init() {
     modelViewMatrixLoc = gl.getUniformLocation(program, "modelViewMatrix");
     camModelViewLoc = gl.getUniformLocation(program, "camModelViewMatrix");
     projectionMatrixLoc = gl.getUniformLocation(program, "projectionMatrix");
+    normalMatrixLoc = gl.getUniformLocation( program, "normalMatrix" );
+
+    //********   Shading & Lightening   *********/
+    /*
+    ambientProduct = mult(lightAmbient, mantisAmbient);
+    diffuseProduct = mult(lightDiffuse, mantisDiffuse);
+    specularProduct = mult(lightSpecular, mantisSpecular);
+
+    gl.uniform4fv( gl.getUniformLocation(program, "ambientProduct"), flatten(ambientProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv( gl.getUniformLocation(program, "specularProduct"), flatten(specularProduct) );	
+    gl.uniform4fv( gl.getUniformLocation(program, "lightPosition"), flatten(lightPosition) );
+    gl.uniform1f( gl.getUniformLocation(program, "shininess"), mantisShininess );*/
+    //********   Shading & Lightening END  *********/
 
     //********  POINT GENERATION  *********//
     cube();
@@ -119,54 +133,6 @@ window.onload = function init() {
 
     startRender(60);
 }
-
-function changeTransformMatrix(event)
-{
-    if ( previousButton !== null)
-    {
-        let num = parseFloat(event.target.value);
-        console.log(num);
-        if ( !Number.isNaN( num) )
-        {
-            // copy values from transformUI that holds inputs that 
-            let modelTransform = transforms[ previousButton.value];
-            let transformKeys = [ "pos", "rot", "scale"];
-            // has the values! to the corresponding transformMatrix found by previousButton
-            for ( let i = 0; i < 3; i++)
-            {
-                for ( let j = 0; j < 3; j++)
-                {
-                    modelTransform[ transformKeys[ i]][ j] = parseFloat( transformUI[ i][ j].value);
-                }
-            }
-            initNodes( parseFloat( previousButton.value)); // do not change!
-        }
-    }
-}
-
-var previousButton = null;
-var currentTransform;
-function handleModelPieceClick( event)
-{
-    if ( previousButton !== null)
-    {
-        previousButton.disabled = false;
-    }
-    previousButton = event.target;
-    previousButton.disabled = true;
-
-    // find corresponding transform matrix
-    let modelTransform = transforms[ previousButton.value];
-    let transformKeys = [ "pos", "rot", "scale"];
-    // Send bodydata to the transform UI!
-    for ( let i = 0; i < 3; i++)
-    {
-        for ( let j = 0; j < 3; j++)
-        {
-            transformUI[ i][ j].value = modelTransform[ transformKeys[ i]][ j];
-        }
-    }
-};
 
 // FPS logic code from: https://stackoverflow.com/questions/19764018/controlling-fps-with-requestanimationframe
 var fps, fpsInterval, startTime, now, then, elapsed;
@@ -223,6 +189,15 @@ var render = function() {
             gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
             gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
 
+            /*
+            normalMatrix = [
+                vec3(camModelViewMatrix[0][0], camModelViewMatrix[0][1], camModelViewMatrix[0][2]),
+                vec3(camModelViewMatrix[1][0], camModelViewMatrix[1][1], camModelViewMatrix[1][2]),
+                vec3(camModelViewMatrix[2][0], camModelViewMatrix[2][1], camModelViewMatrix[2][2])
+            ];
+            gl.uniformMatrix3fv(normalMatrixLoc, false, flatten(normalMatrix) );*/
+
+            // render finally!
             traverse(bodyId);
             ground();
             moveCamera();

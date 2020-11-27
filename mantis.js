@@ -405,7 +405,7 @@ function traverse(Id) {
      changeSphereColor(sphereColors, [0.047, 0.341, 0.019, 1]);
      prepareData( spherePoints, sphereColors);
 
-     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
+     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length, sphereNormals);
  }
  
  function neck() {
@@ -414,10 +414,10 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(neckProportions[0], neckProportions[1], neckProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
+     changeCyclinderColor(cyclinderColors, [0, 0.85, 0, 1]);
      prepareData( cyclinderPoints, cyclinderColors);
 
-     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
+     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length, cyclinderNormals);
  }
 
  function head() {
@@ -427,7 +427,7 @@ function traverse(Id) {
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
      
      changeSphereColor(sphereColors, [0, 1, 0, 1]);
-     prepareData( spherePoints, sphereColors);
+     prepareData( spherePoints, sphereColors, sphereNormals);
 
      gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
@@ -438,8 +438,8 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(upperClawProportions[0], upperClawProportions[1], upperClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
-     prepareData( cyclinderPoints, cyclinderColors);
+     changeCyclinderColor(cyclinderColors, [0, 0.90, 0, 1]);
+     prepareData( cyclinderPoints, cyclinderColors, cyclinderNormals);
 
      gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
@@ -450,8 +450,8 @@ function traverse(Id) {
      instanceMatrix = mult(instanceMatrix, scale4(middleClawProportions[0], middleClawProportions[1], middleClawProportions[2]) );
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
-     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
-     prepareData( cyclinderPoints, cyclinderColors);
+     changeCyclinderColor(cyclinderColors, [0, 0.95, 0, 1]);
+     prepareData( cyclinderPoints, cyclinderColors, cyclinderNormals);
 
      gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
@@ -463,7 +463,7 @@ function traverse(Id) {
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
      changeSphereColor(sphereColors, [0, 1, 0, 1]);
-     prepareData( spherePoints, sphereColors);
+     prepareData( spherePoints, sphereColors, sphereNormals);
 
      gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
@@ -475,7 +475,7 @@ function traverse(Id) {
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
      changeCyclinderColor(cyclinderColors, [0.113, 0.568, 0.070, 1]);
-     prepareData( cyclinderPoints, cyclinderColors);
+     prepareData( cyclinderPoints, cyclinderColors, cyclinderNormals);
 
      gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
  }
@@ -487,7 +487,7 @@ function traverse(Id) {
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
     changeCyclinderColor(cyclinderColors, [0, 1, 0, 1]);
-    prepareData( cyclinderPoints, cyclinderColors);
+    prepareData( cyclinderPoints, cyclinderColors, cyclinderNormals);
 
     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
 }
@@ -499,7 +499,7 @@ function  lowerLeg() {
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
     changeSphereColor(sphereColors, [0, 1, 0, 1]);
-    prepareData( spherePoints, sphereColors);
+    prepareData( spherePoints, sphereColors, sphereNormals);
 
     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
 }
@@ -511,7 +511,7 @@ function  lowerLeg() {
      gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
      changeSphereColor(sphereColors, [0.074, 0.505, 0.031, 1]);
-     prepareData( spherePoints, sphereColors);
+     prepareData( spherePoints, sphereColors, sphereNormals);
 
      gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
  }
@@ -523,7 +523,7 @@ function  lowerLeg() {
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
     changeSphereColor(sphereColors, [0, 0, 0, 1]);
-    prepareData( spherePoints, sphereColors);   
+    prepareData( spherePoints, sphereColors, sphereNormals);   
 
     gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
 }
@@ -535,7 +535,7 @@ function  antenna() {
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
     changeCyclinderColor(cyclinderColors, [0.317, 0.219, 0.219, 1]);
-    prepareData( cyclinderPoints, cyclinderColors);
+    prepareData( cyclinderPoints, cyclinderColors, cyclinderNormals);
 
     gl.drawArrays( gl.TRIANGLES, 0, cyclinderPoints.length);
 }
@@ -548,12 +548,12 @@ function  antenna() {
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
 
     changeCubeColor([0.701, 0.635, 0.635,1]);
-    prepareData(pointsArray, colorsArray);
+    prepareData(pointsArray, colorsArray, cubeNormals);
 
     for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
 
- function prepareData( pointsToSet, colorsToSet, normal = null, texture = null)
+ function prepareData( pointsToSet, colorsToSet, normals = null, texture = null)
  {
      cBuffer = gl.createBuffer();
      gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
@@ -570,4 +570,16 @@ function  antenna() {
      var vPosition = gl.getAttribLocation( program, "vPosition" );
      gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );
      gl.enableVertexAttribArray( vPosition );
+
+     /*
+     if ( normals != null)
+     {
+        var nBuffer = gl.createBuffer();
+        gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer);
+        gl.bufferData( gl.ARRAY_BUFFER, flatten(normals), gl.STATIC_DRAW );
+   
+        var vNormal = gl.getAttribLocation( program, "vNormal" );
+        gl.vertexAttribPointer( vNormal, 4, gl.FLOAT, false, 0, 0 );
+        gl.enableVertexAttribArray( vNormal);
+     }*/
  }

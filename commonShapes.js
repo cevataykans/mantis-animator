@@ -112,7 +112,7 @@ function findSphereTriangles( spherePointIndices, points, normals)
 
 //*******************  Cyclinder *******************//
 
-function findCyclinderPoints( radius, height, points)
+function findCyclinderPoints( radius, height, points, normals)
 {
     var cyclinderPointIndices = [];
 
@@ -128,7 +128,7 @@ function findCyclinderPoints( radius, height, points)
         y = radius * Math.sin( sectorAngle);
 
         // Push points
-        cyclinderPointIndices.push( vec4( x, y, -height / 2, 1) );
+        cyclinderPointIndices.push( vec4( x, y, -height / 2.0, 1) );
     }
 
     // Upper circle
@@ -138,38 +138,78 @@ function findCyclinderPoints( radius, height, points)
         var temp = cyclinderPointIndices[ i];
         cyclinderPointIndices.push( vec4( temp[ 0], temp[ 1], temp[ 2] + height, 1) );
     }
-    findCyclinderTriangles( cyclinderPointIndices, points);
+    findCyclinderTriangles( cyclinderPointIndices, points, normals);
 }
 
-function findCyclinderTriangles( cyclinderPointIndices, points)
+function findCyclinderTriangles( cyclinderPointIndices, points, normals)
 {
     let upper = sectorCount + 1;
+    var upArrow;
+    var leftArrow;
+    var normalToPush;
     for ( let i = 0; i < sectorCount; i++)
     {
-        // side
-        points.push( cyclinderPointIndices[ i]);
+        // side - half triangle
+        points.push( cyclinderPointIndices[ i + 1 + upper]);
         points.push( cyclinderPointIndices[ i + 1]);
-        points.push( cyclinderPointIndices[ i + 1 + upper]);
-
         points.push( cyclinderPointIndices[ i]);
+
+        // side normal for the triangle
+        upArrow = subtract( cyclinderPointIndices[ i + 1 + upper], cyclinderPointIndices[ i]);
+        leftArrow = subtract( cyclinderPointIndices[ i + 1], cyclinderPointIndices[ i]);
+        normalToPush = normalize( cross( upArrow, leftArrow));
+        normalToPush = vec4( normalToPush);
+        normalToPush[ 3] = 0.0;
+
+        normals.push( normalToPush);
+        normals.push( normalToPush);
+        normals.push( normalToPush);
+
+        // side - other half triangle
         points.push( cyclinderPointIndices[ i + 1 + upper]);
+        points.push( cyclinderPointIndices[ i]);
         points.push( cyclinderPointIndices[ i + upper]);
+
+        // side normals for this half triangle
+        upArrow = subtract( cyclinderPointIndices[ i + upper], cyclinderPointIndices[ i]);
+        leftArrow = subtract( cyclinderPointIndices[ i + 1 + upper], cyclinderPointIndices[ i]);
+        normalToPush = normalize( cross( upArrow, leftArrow));
+        normalToPush = vec4( normalToPush);
+        normalToPush[ 3] = 0.0;
+
+        normals.push( normalToPush);
+        normals.push( normalToPush);
+        normals.push( normalToPush);
 
         // lower circle
         points.push( cyclinderPointIndices[ i] );
         points.push( cyclinderPointIndices[ i + 1]);
         points.push( vec4( 0, 0, cyclinderPointIndices[ i][ 2], 1));
 
+        upArrow = subtract( cyclinderPointIndices[ i ], vec4( 0, 0, cyclinderPointIndices[ i][ 2], 1));
+        leftArrow = subtract( cyclinderPointIndices[ i + 1], vec4( 0, 0, cyclinderPointIndices[ i][ 2], 1));
+        normalToPush = normalize( cross( upArrow, leftArrow));
+        normalToPush = vec4( normalToPush);
+        normalToPush[ 3] = 0.0;
+
+        normals.push( normalToPush);
+        normals.push( normalToPush);
+        normals.push( normalToPush);
+
         // upper circle
         points.push( cyclinderPointIndices[ i + 1 + upper] );
         points.push( cyclinderPointIndices[ i + upper]);
         points.push( vec4( 0, 0, -cyclinderPointIndices[ i][ 2], 1));
 
-        // Push colors
+        upArrow = subtract( cyclinderPointIndices[ i + 1 + upper], vec4( 0, 0, -cyclinderPointIndices[ i][ 2], 1));
+        leftArrow = subtract( cyclinderPointIndices[ i + upper], vec4( 0, 0, -cyclinderPointIndices[ i][ 2], 1));
+        normalToPush = normalize( cross( upArrow, leftArrow));
+        normalToPush = vec4( normalToPush);
+        normalToPush[ 3] = 0.0;
 
-        // Push normals
-
-        // Push textures
+        normals.push( normalToPush);
+        normals.push( normalToPush);
+        normals.push( normalToPush);
     }
 }
 
@@ -179,7 +219,15 @@ function quad(a, b, c, d) {
     pointsArray.push(vertices[a]); 
     pointsArray.push(vertices[b]); 
     pointsArray.push(vertices[c]);     
-    pointsArray.push(vertices[d]);    
+    pointsArray.push(vertices[d]);
+    
+    var upArrow = subtract( vertices[c], vertices[b]);
+    var leftArrow = subtract( vertices[a], vertices[b]);
+    var normalToPush = normalize( cross( upArrow, leftArrow));
+    cubeNormals.push( normalToPush);
+    cubeNormals.push( normalToPush);
+    cubeNormals.push( normalToPush);
+    cubeNormals.push( normalToPush);
 }
 
 

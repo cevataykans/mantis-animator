@@ -83,14 +83,27 @@
 
         attribute vec4 vPosition;
         attribute vec4 vColor; 
-        varying vec4 fColor;
+        attribute vec4 vNormal;
 
+        varying vec4 fColor;
+        varying vec3 N, L, E;
+
+        uniform vec4 lightPosition;
         uniform mat4 camModelViewMatrix;
         uniform mat4 modelViewMatrix;
         uniform mat4 projectionMatrix;
+        uniform mat3 normalMatrix;
 
         void main() 
         {
+            /*vec3 light;
+            vec3 pos = (modelViewMatrix * vPosition).xyz;
+            if(lightPosition.z == 0.0)  L = normalize(lightPosition.xyz);
+            else  L = normalize(lightPosition).xyz - pos;
+        
+            E = -normalize(pos);
+            N = normalize( normalMatrix * vNormal.xyz);*/
+
             gl_Position = projectionMatrix * camModelViewMatrix * modelViewMatrix * vPosition;
             fColor = vColor;
         } 
@@ -100,10 +113,34 @@
 
         precision mediump float;
         varying vec4 fColor;
+        varying vec3 N, L, E;     
+
+        uniform vec4 ambientProduct;
+        uniform vec4 diffuseProduct;
+        uniform vec4 specularProduct;
+        uniform float shininess;
+
+        vec3 ambientColor;
+  
         void main()
         {
-            gl_FragColor = fColor;
+            /*vec4 fColorToSend;
 
+            vec3 H = normalize( L + E );
+            vec4 ambient = ambientProduct;
+        
+            float Kd = max( dot( L, N), 0.0 );
+            vec4 diffuse = Kd * diffuseProduct;
+        
+            float Ks = pow( max( dot( N, H), 0.0), shininess );
+            vec4 specular = Ks * specularProduct;
+            
+            if( dot( L, N) < 0.0 ) specular = vec4( 0.0, 0.0, 0.0, 1.0);
+        
+            fColorToSend = ambient + diffuse + specular;
+            fColorToSend.a = 1.0;*/
+
+            gl_FragColor = fColor;
         }
         </script>
 
@@ -113,6 +150,7 @@
         <script type="text/javascript" src="saveSystem.js"></script>
         <script type="text/javascript" src="commonShapes.js"></script>
         <script type="text/javascript" src="ModelViewUI.js"></script>
+        <script type="text/javascript" src="ModelViewUIHandler.js"></script>
         <script type="text/javascript" src="camera.js"></script>
         <script type="text/javascript" src="animationUI.js"></script>
         <script type="text/javascript" src="animationHandler.js"></script>
