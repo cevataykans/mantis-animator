@@ -134,7 +134,7 @@ var transforms = [
      },
      { //"front Lower Right Leg",
         "pos": [ 0.5*middleLegProportions[0] - 0.5*lowerLegProportions[0], 0.05*middleLegProportions[1] - lowerLegProportions[1], 0],
-        "rot": [ 0, 0, 45],
+        "rot": [ 0, 0, 60],
         "scale": [ 1, 1, 1]
      },
      { //"back Upper Left Leg",
@@ -164,7 +164,7 @@ var transforms = [
      },
      { //"back Lower Right Leg",
         "pos": [ 0.5*middleLegProportions[0] - 0.5*lowerLegProportions[0], 0.05*middleLegProportions[1] - lowerLegProportions[1], 0],
-        "rot": [ 0, 0, 45],
+        "rot": [ 0, 0, 60],
         "scale": [ 1, 1, 1]
      },
      { //"left Wing",
@@ -177,6 +177,16 @@ var transforms = [
         "rot": [ 104, 0, -7],
         "scale": [ 1, 1, 1]
      }
+];
+
+// Environment
+var groundProportions = [1000, 0.001, 1000];
+var groundTransform = [
+    {
+        "pos": [0, -5.4, 0],
+        "rot": [0, 0, 0],
+        "scale": [1, 1, 1]
+    }
 ];
 
 function createNode(transform, render, sibling, child){
@@ -454,6 +464,19 @@ function  lowerLeg() {
      prepareData( spherePoints, sphereColors);
 
      gl.drawArrays( gl.TRIANGLES, 0, spherePoints.length);
+ }
+
+ // Environment functiıns
+ function ground() {
+    m = getModelViewMatrix(groundTransform[0]);
+    instanceMatrix = mult(m, translate(0.0, 0, 0.0) );
+	instanceMatrix = mult(instanceMatrix, scale4(groundProportions[0], groundProportions[1], groundProportions[2]) )
+    gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
+
+    changeCubeColor([0.701, 0.635, 0.635,1]);
+    prepareData(pointsArray, colorsArray);
+
+    for(var i =0; i<6; i++) gl.drawArrays(gl.TRIANGLE_FAN, 4*i, 4);
  }
 
  function prepareData( pointsToSet, colorsToSet, normal = null, texture = null)

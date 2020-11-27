@@ -223,6 +223,7 @@ var render = function() {
             gl.uniformMatrix4fv( camModelViewLoc, false, flatten(camModelViewMatrix) );
 
             traverse(bodyId);
+            ground();
             moveCamera();
         }
 };

@@ -225,10 +225,11 @@ function changeCyclinderColor(colorArray, rgbColor = [0, 1, 0, 1])
     }
 }
 
-function changeCubeColor(colorArray, rgbColor = [0, 1, 0, 1]) 
+function changeCubeColor(rgbColor = [0, 1, 0, 1]) 
 {
+    colorsArray = [];
     for (p = 0; p < 24; p++)
     {
-        colorArray[i] = rgbColor;
+        colorsArray.push(rgbColor);
     }
 }
