@@ -6,7 +6,6 @@ var transformUI = [
 
 function buildModelUI( curID, parentID)
 {
-    console.log(curID);
     if ( curID == null) return;
 
     if (curID < leftEyeId) {
