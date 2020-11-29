@@ -8824,7 +8824,7 @@
         ]
     },
     {
-        "name": "HumanWalk",
+        "name": "Olympics",
         "frames": [
             {
                 "frame": [
@@ -14396,7 +14396,7 @@
         ]
     },
     {
-        "name": "Walk",
+        "name": "Superhero-Landing",
         "frames": [
             {
                 "frame": [
@@ -18112,7 +18112,7 @@
         ]
     },
     {
-        "name": "KungFu",
+        "name": "Kung-Fu",
         "frames": [
             {
                 "frame": [
