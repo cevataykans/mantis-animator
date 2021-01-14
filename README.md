@@ -4,7 +4,7 @@ I collaborated with my dear colleague [Talha Sen](https://github.com/talhasen123
 
 Mantis animator essentially models a mantis using sphere and cylinder primitives by tree-stack model-view-matrix traversal.
 
-[Click me to view Mantis Animator in action!]([https://cevataykans.github.io/mantis-animator/](https://cevataykans.github.io/mantis-animator/) "Mantis Animator")
+### Published At: [Take me to the website!](https://cevataykans.github.io/mantis-animator/ "Mantis Animator")
 
 ## My Contributions
 
