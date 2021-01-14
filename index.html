@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mantis Simulator</title>
+
+        <style>
+			canvas {
+				border: 2px solid black;
+                margin-left: 10px;
+                margin-right: 10px;
+                float: left;
+                width: 50%;
+			}
+
+            .hierarchy {
+                float: left;
+                border: 2px solid black;
+                width: 25%;
+                max-width: fit-content;
+                max-height: fit-content;
+            }
+
+            .transform {
+                float: left;
+                border: 2px solid black;
+                text-align: center;
+                margin-right: auto;
+                width: 25%;
+                max-width: fit-content;
+                max-height: fit-content;
+            }
+
+            .transformComponent {
+                float: left;
+                margin: 10px;
+                margin-right: auto;
+            }
+
+            .transformInput {
+                width: 50px;
+            }
+
+            .camTransform {
+                margin-left: 10px;
+                margin-right: auto;
+                width: 200px
+            }
+
+            .camTransformInput {
+                width: 50px;
+            }
+
+            .camTransformComponent {
+                float: left;
+                margin: 10px;
+                margin-right: auto;
+            }
+
+            .setting {
+                margin-left: 10px;
+            }
+
+            label {
+                text-align: center;
+                font-weight: bold;
+                font-size: 18px;
+            }
+
+            .sliderLabel {
+                margin-left: 10px;
+                font-size: 16px;
+            }
+
+            .animationButton {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                padding: 5px;
+                width: 100px;
+            }
+        </style>
+        
+        <script id="vertex-shader" type="x-shader/x-vertex">
+
+        attribute vec4 vPosition;
+        attribute vec4 vColor; 
+        varying vec4 fColor;
+
+        uniform mat4 camModelViewMatrix;
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+
+        void main() 
+        {
+            gl_Position = projectionMatrix * camModelViewMatrix * modelViewMatrix * vPosition;
+            fColor = vColor;
+        } 
+        </script>
+
+        <script id="fragment-shader" type="x-shader/x-fragment">
+
+        precision mediump float;
+        varying vec4 fColor;
+        void main()
+        {
+            gl_FragColor = fColor;
+
+        }
+        </script>
+
+        <script type="text/javascript" src="../Source/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Source/InitShaders.js"></script>
+        <script type="text/javascript" src="../Source/MV.js"></script>
+        <script type="text/javascript" src="../Source/saveSystem.js"></script>
+        <script type="text/javascript" src="../Source/commonShapes.js"></script>
+        <script type="text/javascript" src="../Source/ModelViewUI.js"></script>
+        <script type="text/javascript" src="../Source/camera.js"></script>
+        <script type="text/javascript" src="../Source/animationUI.js"></script>
+        <script type="text/javascript" src="../Source/animationHandler.js"></script>
+        <script type="text/javascript" src="../Source/mantis.js"></script>
+        <script type="text/javascript" src="../Source/lighteningShading.js"></script>
+        <script type="text/javascript" src="../Source/main.js"></script>
+    </head>
+
+    <body>
+        <div class="hierarchy">
+
+            <div style="text-align: center; margin-bottom: 5px; margin-top: 5px;">
+                <label>Model Hierarchy Window</label>
+            </div>
+
+            <ul id="menunull">
+            </ul>
+            
+            <hr>
+            <div>
+                <div>
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Camera Settings</label>
+                     </div>
+                     <div style="text-align: center; margin-top: 10px; margin-bottom: 10px;">
+                        <input type="radio" id="orthoRadioButton" name="selectedCam">Orthographic</input>
+                        <input type="radio" id="perspectiveRadioButton" name="selectedCam" checked>Perspective</input>
+                    </div>
+                    <div style="text-align: center;">
+                        <input type="checkbox" id="hardFocusCheckBox">Hard Focus</input>
+                    </div>
+                </div>
+                <hr>
+                <div class="setting">
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Perspective Settings</label>
+                    </div>
+                    <div>
+                        <div>
+                            zNear 0.1<input id="zNearSlider" type="range" min="0.1" max="100" step="0.1" value="0.3" name="perspectiveSettings"/> 100
+                            <label id="zNearSlideLabel" class="sliderLabel">0.3</label>
+                        </div>
+                        <div>
+                            zFar 1<input id="zFarSlider" type="range" min="1" max="100" step="1" value="15" name="perspectiveSettings"/> 100
+                            <label id="zFarSliderLabel" class="sliderLabel">15</label>
+                        </div>
+                        <div>
+                            fov 10<input id="fovSlider" type="range" min="10" max="120" step="1" value="60" name="perspectiveSettings"/> 120
+                            <label id="fovSliderLabel" class="sliderLabel">60</label>
+                        </div>
+                        <div>
+                            aspect 0.5<input id="aspectSlider" type="range" min="0.5" max="2" step="0.1" value="1" name="perspectiveSettings"/> 2
+                            <label id="aspectSliderLabel" class="sliderLabel">1</label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="setting">
+                    <div style="text-align: center; margin-bottom: 5px;">
+                        <label>Orthographic Settings</label>
+                    </div>  
+                    <div>
+                        <div>
+                            radius 1<input id="radiusSliderID" type="range" min="1" max="100" step="0.1" value="1" name="orthoSettings"/>100
+                            <label id="radiusSliderLabel" class="sliderLabel">1</label>
+                        </div>
+                        <div>
+                            theta 0<input id="thetaSlider" type="range" min="0" max="360" step="1" value="0" name="orthoSettings"/> 360
+                            <label id="thetaSliderLabel" class="sliderLabel">0</label>
+                        </div>
+                        <div>
+                            phi 0<input id="phiSlider" type="range" min="0" max="360" step="1" value="0" name="orthoSettings"/> 360
+                            <label id="phiSliderLabel" class="sliderLabel">0</label>
+                        </div>
+                        <div>
+                            depth 1<input id="depthSlider" type="range" min="1" max="100" step="1" value="15" name="orthoSettings"/> 100
+                            <label id="depthSliderLabel" class="sliderLabel">15</label>
+                        </div>
+                        <div>
+                            height 1<input id="heightSlider" type="range" min="1" max="100" step="1" value="15" name="orthoSettings"/> 100
+                            <label id="heightSliderLabel" class="sliderLabel">15</label>
+                        </div>
+                        <div>
+                            width 1<input id="widthSlider" type="range" min="1" max="100" step="1" value="15" name="orthoSettings"/> 100
+                            <label id="widthSliderLabel" class="sliderLabel">15</label>
+                        </div>
+                    </div>
+                </div>
+                <hr style="width:100%;text-align:left;margin-left:0;">
+                <div style="text-align: center; margin-bottom: 5px;">
+                    <label> Camera Transform</label>
+                </div>
+                <div>
+                    <div>
+                        <h4 class="camTransformComponent">Position:</h4>
+                        <div class="camTransformComponent">
+                            X: <input class="camTransformInput" type="text" id="posX" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Y: <input class="camTransformInput" type="text" id="posY" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Z: <input class="camTransformInput" type="text" id="posZ" value="-" placeholder="0">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="camTransformComponent">Rotation:</h4>
+                        <div class="camTransformComponent">
+                            X: <input class="camTransformInput" type="text" id="rotX" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Y: <input class="camTransformInput" type="text" id="rotY" value="-" placeholder="0">
+                        </div>
+                        <div class="camTransformComponent">
+                            Z: <input class="camTransformInput" type="text" id="rotZ" value="-" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <canvas id="gl-canvas" width="1024"" height="1024">
+                Oops ... your browser doesn't support the HTML5 canvas element
+            </canvas>
+        </div>
+
+        <div class="transform">
+            <div>
+                <div style="text-align: center; margin-bottom: 5px;">
+                    <label>Transform Window</label>
+                 </div>
+                <div class="setting">
+                    <div>
+                        <h4 class="transformComponent">Position:</h4>
+                        <div class="transformComponent">
+                            X: <input class="transformInput" type="number" id="posX" value="0" placeholder="0" step="1">
+                        </div>
+                        <div class="transformComponent">
+                            Y: <input class="transformInput" type="number" id="posY" value="0" placeholder="0" step="1">
+                        </div>
+                        <div class="transformComponent">
+                            Z: <input class="transformInput" type="number" id="posZ" value="0" placeholder="0" step="1">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="transformComponent">Rotation:</h4>
+                        <div class="transformComponent">
+                            X: <input class="transformInput" type="number" id="rotX" value="0" placeholder="0" step="1">
+                        </div>
+                        <div class="transformComponent">
+                            Y: <input class="transformInput" type="number" id="rotY" value="0" placeholder="0" step="1">
+                        </div>
+                        <div class="transformComponent">
+                            Z: <input class="transformInput" type="number" id="rotZ" value="0" placeholder="0" step="1">
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="transformComponent">Scale:</h4>
+                        <div class="transformComponent">
+                            X: <input class="transformInput" type="number" id="scaleX" value="0" placeholder="0" step="1">
+                        </div>
+                        <div class="transformComponent">
+                            Y: <input class="transformInput" type="number" id="scaleY" value="0" placeholder="0" step="1">
+                        </div>
+                        <div class="transformComponent">
+                            Z: <input class="transformInput" type="number" id="scaleZ" value="0" placeholder="0" step="1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding-top: 50%;">
+                <div style="text-align: center;">
+                    <hr>
+                    <div style="margin-bottom: 20px;">
+                        <label>Animation Window</label>
+                    </div>
+                    <div>
+                        <div>
+                            <label>Load Anims</label>
+                            <input style="width: 150px;" type="file" id="loadAnimationsButton" name="myAnimation">
+                        </div>
+                        <div>
+                            <label>Save Anim</label>
+                            <input style="width: 100px;" type="text" id="animationFileNameInput" placeholder="myAnimations">   
+                            <button class="animationButton" type="button" id="saveAnimationsButton">Save</button>          
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <label>Animation Factory</label>
+                        <div style="margin-top: 15px;">
+                            <label>Anim Name:</label>
+                            <input style="width: 100px;" type="text" id="animationNameInput" placeholder="newAnimation"> 
+                        </div>
+                        <div>
+                            <button class="animationButton" type="button" id="startCaptureButton">Start Capture</button>
+                            <button class="animationButton" type="button" id="saveFrameButton">Save Frame</button>
+                            <button class="animationButton" type="button" id="finishCaptureButton">Finish Capture</button>
+                        </div>
+                        <div>
+                            <label>Frame Count:</label>
+                            <input class="transformInput" type="number" id="fpsCounter" min="1" value="60" placeholder="60" step="1">
+                        </div>
+                    </div>
+                    <hr>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="margin-bottom: 20px;">
+                            <label>Animator</label>
+                        </div>
+                        <div>
+                            <label>Current Anim:</label>
+                            <select name="availableAnims" id="animSelector">
+                            </select>
+                        </div>
+                        <div>
+                            <button class="animationButton" type="button" id="stopAnimButton">Stop</button>
+                            <button class="animationButton" type="button" id="playAnimButton">Play</button>
+                            <input type="checkbox" id="loopCheckBox">Loop</input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script id = "sliderUIAdjusters">
+            var slider = document.getElementById( "radiusSliderID");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "radiusSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "thetaSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "thetaSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "phiSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "phiSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "depthSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "depthSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "heightSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "heightSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "widthSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "widthSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "zNearSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "zNearSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "zFarSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "zFarSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "fovSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "fovSliderLabel").innerHTML = sliderValue;
+            }, false);
+
+            slider = document.getElementById( "aspectSlider");
+            slider.addEventListener( "input", (event) => 
+            { 
+                let sliderValue = event.target.value; 
+                document.getElementById( "aspectSliderLabel").innerHTML = sliderValue;
+            }, false);
+        </script>
+    </body>
+</html>
